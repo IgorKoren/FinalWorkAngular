@@ -1,0 +1,17 @@
+<!-- <p>admin-panel works!</p> -->
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <div class="list-group w25">
+        <a class="list-group-item list-group-item-action" [routerLink]="[ 'category' ]" routerLinkActive="active">Категорії</a>
+        <a class="list-group-item list-group-item-action" [routerLink]="[ 'products' ]" routerLinkActive="active">Товари</a>
+        <a class="list-group-item list-group-item-action" [routerLink]="[ 'orders' ]" routerLinkActive="active">Замовлення</a>
+        <a class="list-group-item list-group-item-action" [routerLink]="[ 'users' ]" routerLinkActive="active">Користувачі</a>
+      </div>
+    </div>
+    <div class="col-auto">
+        <router-outlet></router-outlet>
+      </div>
+  </div>
+ 
+</div>

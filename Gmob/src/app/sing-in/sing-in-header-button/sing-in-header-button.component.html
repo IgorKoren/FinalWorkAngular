@@ -1,0 +1,32 @@
+<!-- <p>sing-in-header-button works!</p> -->
+<div class="row">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block">
+        <a class="btn-outline-primary" id="dropdownForm1" ngbDropdownToggle>Вхід</a>
+        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+          <form class="px-4 py-3">
+            <div class="form-group">
+              <label for="exampleDropdownFormEmail1">Email:</label>
+              <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="введіть емаіл...">
+            </div>
+            <div class="form-group">
+              <label for="exampleDropdownFormPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Пароль...">
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="dropdownCheck">
+              <label class="form-check-label" for="dropdownCheck">
+                Запам’ятати мене
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary" [routerLink]="['/login']">Вхід</button>
+          </form>
+          <div class="dropdown-divider"></div>
+          <button ngbDropdownItem [routerLink]="['registration']">Зареєструватися</button>
+          <button ngbDropdownItem [routerLink]="['password-recovery']">Забули пароль?</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
