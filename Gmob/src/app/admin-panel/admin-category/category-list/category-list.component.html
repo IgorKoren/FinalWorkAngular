@@ -1,0 +1,416 @@
+<!-- Categoty form -->
+<!-- <div class="ql-container ql-snow" style="border-width: 0;">
+  <div class="ql-editor" [innerHTML]="byPassedHTMLString">
+  </div>
+</div> -->
+<hr>
+
+<hr>
+<div>
+  <h3 *ngIf="!isEdit">Додавання категорії</h3>
+  <h3 *ngIf="isEdit">Редагування категорії</h3>
+</div>
+
+<form [formGroup]="categoryForm" class="brb" (ngSubmit)="submitCategoryData()" novalidate>
+  <div class="row">
+    <div class="form-group d60">
+
+      <div class="form-group mb-3">
+        <label>ID категорії:</label>
+        <input type="text" formControlName="categoryId" class="form-control" required>
+        <!-- Showing errors using getter method -->
+        <!-- <p *ngIf="categoryId.touched && categoryId.invalid" class="error"><sup>*</sup>Please enter atleast first
+                name</p> -->
+        <!-- <p *ngIf="categoryId.errors?.minlength" class="error"><sup>*</sup>Name shouldn't be less than 2 words</p> -->
+      </div>
+
+      <div class="form-group mb-3">
+        <label>Назва категорії на українській мові</label>
+        <input type="text" formControlName="nameUA" class="form-control">
+      </div>
+
+      <div class="form-group mb-3">
+        <label>Назва категорії English</label>
+        <input type="text" formControlName="nameEN" class="form-control" required>
+        <!-- Showing errors using getter method -->
+        <!-- <p *ngIf="nameEN.touched && nameEN.invalid" class="error"><sup>*</sup>Please provide email</p> -->
+        <!-- <p *ngIf="email.errors?.pattern" class="error"><sup>*</sup>Please enter correct email</p> -->
+      </div>
+
+      <div class="form-group mb-3">
+        <label>Короткий опис категорії на українській мові</label>
+        <!-- <input type="text" formControlName="description"  class="form-control" required> -->
+        <!-- Showing errors using getter method -->
+        <!-- <p *ngIf="description.touched && description.invalid" class="error"><sup>*</sup>Please provide contact
+                  number</p> -->
+        <!-- <p *ngIf="mobileNumber.errors?.pattern" class="error"><sup>*</sup>Use numbers only
+                  number</p> -->
+      </div>
+      <quill-editor formControlName="description" 
+      [styles]="{height: '250px'}" 
+      [trimOnValidation]="true"
+      placeholder='Введіть текст...'
+      >
+        <div quill-editor-toolbar >
+          <span class="ql-formats">
+            <select class="ql-font">
+              <option selected></option>
+              <option value="serif"></option>
+              <option value="monospace"></option>
+            </select>
+            <select class="ql-size">
+              <option value="small"></option>
+              <option selected></option>
+              <option value="large"></option>
+              <option value="huge"></option>
+            </select>
+          </span>
+          <span class="ql-formats"><span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0" role="button"
+                aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18">
+                  <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon>
+                  <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon>
+                </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-5"><span
+                  tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button"
+                  class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"
+                  data-value="3"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="4"></span><span
+                  tabindex="0" role="button" class="ql-picker-item" data-value="5"></span><span tabindex="0" role="button"
+                  class="ql-picker-item" data-value="6"></span><span tabindex="0" role="button"
+                  class="ql-picker-item ql-selected"></span></span></span><select class="ql-header" style="display: none;">
+              <option value="1"></option>
+              <option value="2"></option>
+              <option value="3"></option>
+              <option value="4"></option>
+              <option value="5"></option>
+              <option value="6"></option>
+              <option selected="selected"></option>
+            </select></span>
+          <span class="ql-formats">
+            <select class="ql-align" [title]="'Aligment'">
+              <option selected></option>
+              <option value="center"></option>
+              <option value="right"></option>
+              <option value="justify"></option>
+            </select>
+          </span>
+          <span class="ql-formats">
+            <button class="ql-bold"></button>
+            <button class="ql-italic"></button>
+            <button class="ql-underline"></button>
+            <button class="ql-strike"></button>
+          </span>
+          <span class="ql-formats"><button type="button" class="ql-blockquote"><svg viewBox="0 0 18 18">
+                <rect class="ql-fill ql-stroke" height="3" width="3" x="4" y="5"></rect>
+                <rect class="ql-fill ql-stroke" height="3" width="3" x="11" y="5"></rect>
+                <path class="ql-even ql-fill ql-stroke" d="M7,8c0,4.031-3,5-3,5"></path>
+                <path class="ql-even ql-fill ql-stroke" d="M14,8c0,4.031-3,5-3,5"></path>
+              </svg></button><button type="button" class="ql-code-block"><svg viewBox="0 0 18 18">
+                <polyline class="ql-even ql-stroke" points="5 7 3 9 5 11"></polyline>
+                <polyline class="ql-even ql-stroke" points="13 7 15 9 13 11"></polyline>
+                <line class="ql-stroke" x1="10" x2="8" y1="5" y2="13"></line>
+              </svg></button></span>
+          <span class="ql-formats"><button type="button" class="ql-script" value="sub"><svg viewBox="0 0 18 18">
+                <path class="ql-fill"
+                  d="M15.5,15H13.861a3.858,3.858,0,0,0,1.914-2.975,1.8,1.8,0,0,0-1.6-1.751A1.921,1.921,0,0,0,12.021,11.7a0.50013,0.50013,0,1,0,.957.291h0a0.914,0.914,0,0,1,1.053-.725,0.81,0.81,0,0,1,.744.762c0,1.076-1.16971,1.86982-1.93971,2.43082A1.45639,1.45639,0,0,0,12,15.5a0.5,0.5,0,0,0,.5.5h3A0.5,0.5,0,0,0,15.5,15Z">
+                </path>
+                <path class="ql-fill"
+                  d="M9.65,5.241a1,1,0,0,0-1.409.108L6,7.964,3.759,5.349A1,1,0,0,0,2.192,6.59178Q2.21541,6.6213,2.241,6.649L4.684,9.5,2.241,12.35A1,1,0,0,0,3.71,13.70722q0.02557-.02768.049-0.05722L6,11.036,8.241,13.65a1,1,0,1,0,1.567-1.24277Q9.78459,12.3777,9.759,12.35L7.316,9.5,9.759,6.651A1,1,0,0,0,9.65,5.241Z">
+                </path>
+              </svg></button><button type="button" class="ql-script" value="super"><svg viewBox="0 0 18 18">
+                <path class="ql-fill"
+                  d="M15.5,7H13.861a4.015,4.015,0,0,0,1.914-2.975,1.8,1.8,0,0,0-1.6-1.751A1.922,1.922,0,0,0,12.021,3.7a0.5,0.5,0,1,0,.957.291,0.917,0.917,0,0,1,1.053-.725,0.81,0.81,0,0,1,.744.762c0,1.077-1.164,1.925-1.934,2.486A1.423,1.423,0,0,0,12,7.5a0.5,0.5,0,0,0,.5.5h3A0.5,0.5,0,0,0,15.5,7Z">
+                </path>
+                <path class="ql-fill"
+                  d="M9.651,5.241a1,1,0,0,0-1.41.108L6,7.964,3.759,5.349a1,1,0,1,0-1.519,1.3L4.683,9.5,2.241,12.35a1,1,0,1,0,1.519,1.3L6,11.036,8.241,13.65a1,1,0,0,0,1.519-1.3L7.317,9.5,9.759,6.651A1,1,0,0,0,9.651,5.241Z">
+                </path>
+              </svg></button></span>
+          <span class="ql-formats">
+            <select class="ql-color"></select>
+            <!-- <select class="ql-background"></select> -->
+          </span>
+          <span class="ql-formats">
+            <button class="ql-list" value="ordered"></button>
+            <button class="ql-list" value="bullet"></button>
+            <!-- <select class="ql-align">
+              <option selected></option>
+              <option value="center"></option>
+              <option value="right"></option>
+              <option value="justify"></option>
+            </select> -->
+          </span>
+          <span class="ql-formats"><button type="button" class="ql-indent" value="-1"><svg viewBox="0 0 18 18">
+                <line class="ql-stroke" x1="3" x2="15" y1="14" y2="14"></line>
+                <line class="ql-stroke" x1="3" x2="15" y1="4" y2="4"></line>
+                <line class="ql-stroke" x1="9" x2="15" y1="9" y2="9"></line>
+                <polyline class="ql-stroke" points="5 7 5 11 3 9 5 7"></polyline>
+              </svg></button><button type="button" class="ql-indent" value="+1"><svg viewBox="0 0 18 18">
+                <line class="ql-stroke" x1="3" x2="15" y1="14" y2="14"></line>
+                <line class="ql-stroke" x1="3" x2="15" y1="4" y2="4"></line>
+                <line class="ql-stroke" x1="9" x2="15" y1="9" y2="9"></line>
+                <polyline class="ql-fill ql-stroke" points="3 7 3 11 5 9 3 7"></polyline>
+              </svg></button></span>
+          <span class="ql-formats">
+            <button class="ql-link"></button>
+            <!-- <button class="ql-image"></button> -->
+          </span>
+          <span class="ql-formats"><button type="button" class="ql-clean"><svg class="" viewBox="0 0 18 18">
+                <line class="ql-stroke" x1="5" x2="13" y1="3" y2="3"></line>
+                <line class="ql-stroke" x1="6" x2="9.35" y1="12" y2="3"></line>
+                <line class="ql-stroke" x1="11" x2="15" y1="11" y2="15"></line>
+                <line class="ql-stroke" x1="15" x2="11" y1="11" y2="15"></line>
+                <rect class="ql-fill" height="1" rx="0.5" ry="0.5" width="7" x="2" y="14"></rect>
+              </svg></button></span>
+      
+        </div>
+      </quill-editor>
+
+      <!-- <div class="col-md-12 mb-3">
+                <label>Фото для категорії</label>
+                <input type="file" formControlName="imageUrl" class="form-control">
+              </div> -->
+
+      <!-- <div class="col-md-12">
+              <input (change)="uploadFile($event)" type="file" class="custom-file-input" id="customFile">
+              <label class="custom-file-label" for="customFile">Вибрати картинку для категорії...</label>
+              <div class="progress-bar progress-bar-striped bg-success" style.heigth="20px" role="progressbar"
+                [style.width]="(uploadProgress | async) + '%'" aria-valuemin="0" aria-valuemax="100">{{uploadProgress | number}} % 
+              </div>
+              <small>URL картинки:</small>
+              <small>{{productImage}}</small>
+            </div> -->
+
+      <!-- <div class="form-group">
+                <label for="exampleFormControlFile1">Example file input</label>
+                <input (change)="uploadFile($event)" type="file" class="form-control-file" id="exampleFormControlFile1">
+              </div>
+               -->
+
+    </div>
+
+    <div class=" form-group d40 ">
+      <div class="imageCont">
+        <ng-container *ngIf="productImage; else elseTemplate">
+          <img [style.backgroundImage]="'url(' + productImage + ')'"><br>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <div class="img-placeholder">Додайте фото...</div>
+        </ng-template>
+
+
+
+        <small>Процент завантаження: {{uploadProgress | async |  number: '1.0'}} %</small>
+        <div class="progress mt-2 mb-2">
+
+          <div class="progress-bar progress-bar-striped bg-success" style.heigth="5px" role="progressbar"
+            [style.width]="(uploadProgress | async) + '%'" aria-valuemin="0" aria-valuemax="100">
+          </div>
+
+
+
+        </div>
+        <div class="custom-file">
+          <input (change)="uploadFile($event)" accept="image/*" type="file" class="custom-file-input" id="customFile">
+          <label class="custom-file-label" for="customFile">Вибрати картинку</label>
+        </div>
+
+        <br>
+        <!-- <small>Замінити</small> -->
+
+        <label>URL картинки:</label>
+        <input type="text" formControlName="imageUrl" class="form-control btn-sm" required>
+        <button type="button" (click)="removeImage(productImage)" [disabled]="!productImage"
+          class="btn btn-info btn-sm mt-2 mb-1">Видалити картинку </button>
+        <!-- Showing errors using getter method -->
+        <!-- <p *ngIf="description.touched && description.invalid" class="error"><sup>*</sup>Please provide contact
+                    number</p> -->
+        <!-- <p *ngIf="mobileNumber.errors?.pattern" class="error"><sup>*</sup>Use numbers only
+                    number</p> -->
+
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12">
+      <div class="form-group">
+
+        <button *ngIf="!isEdit" type="submit" class="btn btn-success mr-2" [disabled]="!categoryForm.valid">Додати
+          категорію</button>
+        <button *ngIf="isEdit" type="submit" class="btn btn-success mr-2" [disabled]="!categoryForm.valid">Зберегти
+          зміни</button>
+        <button type="button" class="btn btn-secondary gap-right mr-2" (click)="resetForm()">Очистити форму</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="form-group">
+          <label>Select file to upload</label>
+          <input type="file" accept="image/*" class="form-control" formControlName="imageUrl">
+          <div class="text-danger" *ngIf="categoryForm.imageUrl.errors?.required">This field is required.
+          </div>
+        </div> -->
+</form>
+
+
+
+
+
+
+
+
+<!-- Процент завантаження: {{uploadProgress | async |  number: '1.0'}} % -->
+
+<br>
+<hr>
+
+
+
+
+
+
+<!-- <div class="container">
+  <div class="card">
+    <div class="card-header">
+      Firebase Cloud Storage With Angular
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Select a file for upload:</h5>
+      <input type="file" (change)="upload($event)" accept=".png,.jpg" />
+      <br><br>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width]="(uploadProgress | async) + '%'" [attr.aria-valuenow]="(uploadProgress | async)" aria-valuemin="0" aria-valuemax="100">
+        </div>
+      </div>
+      <br>
+      <div class="btn-group" role="group" *ngIf="uploadState | async; let state">
+        <button type="button" class="btn btn-primary" (click)="task.pause()" [disabled]="state === 'paused'">Pause</button>
+        <button type="button" class="btn btn-primary" (click)="task.cancel()" [disabled]="!(state === 'paused' || state ==='running')">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="task.resume()" [disabled]="state === 'running'">Resume</button>
+      </div>
+      <br><br>
+      <div *ngIf="downloadURL | async; let downloadSrc" class="alert alert-info" role="alert">
+        File uploaded: <a [href]="downloadSrc">{{downloadSrc}}</a>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+
+
+<!-- Preloader shows before the data loads-->
+<!-- <div class="no-data text-center" *ngIf="preLoader">
+    <img src="assets/preloader-icon.svg" class="preloader-icon" alt="No student">
+  </div> -->
+
+<!-- No data shows when their is no student data available -->
+<!-- <div class="no-data text-center" *ngIf="noData"> -->
+<!-- <img src="assets/no-student.svg" class="nodata-msg" alt="No student"> -->
+<!-- <p class="nodata-msg">No student added yet!</p> -->
+<!-- <a [routerLink]="['addCategory']" class="btn btn-success">
+      <i class="fas fa-plus custom-fa-plus"></i>
+      Add Student
+    </a> -->
+<!-- </div> -->
+
+<!-- Showing data -->
+
+<h3>Список всіх категорій товарів</h3>
+<div class="table-responsive-sm" *ngIf="hideWhenNoStudent">
+  <table class="table table-hover table-bordered table-responsive-sm table-responsive-md table-responsive-lg">
+    <thead class="thead-light ">
+      <tr>
+        <!-- <th scope="col">Student Id firebase</th> -->
+        <th class="text-center" scope="col">ID категорії</th>
+        <th class="text-center" scope="col">Назва UA</th>
+        <th class="text-center" scope="col">Назва EN</th>
+        <th class="text-center" scope="col">Фото</th>
+        <th class="text-center" scope="col">Опис</th>
+        <th class="text-center" scope="col">Редагувати</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let oneCatehory of category; let i = index;">
+        <!-- <td scope="row">{{oneCatehory?.id}}</td> -->
+        <td class="text-center w-min-150px" scope="row">{{oneCatehory?.Id}}</td>
+        <td class="text-center w-min-150px" scope="row">{{oneCatehory?.nameUA}}</td>
+        <td class="text-center" scope="row">{{oneCatehory?.nameEN}}</td>
+        <td scope="row">
+          <div class="cont-image-in-category-list">
+            <a [href]="oneCatehory?.imageUrl" target="_blanck">
+              <img [src]="oneCatehory?.imageUrl" alt="oneCatehory?.imageUrl"></a>
+          </div>
+          <small><a [href]="oneCatehory?.imageUrl" target="_blanck">{{oneCatehory?.imageUrl}}</a></small>
+        </td>
+        <td scope="row">
+          <div class="conteiner-for-Descriptions">
+            <small>
+              {{oneCatehory?.description}}
+            </small>
+            
+          </div>
+         
+        </td >
+        <!-- <td scope="row"> <a [href]="oneCatehory?.imageUrl" target="_blanck">{{oneCatehory?.imageUrl}}</a>
+          </td> -->
+        <td class="text-center w-min-150px">
+             <div class=" d-fl-centr ">
+            <span (click)="editCategoryFun(oneCatehory.id)" class="cursorPointer span-color-hover"
+              ngbTooltip="Редагувати категорію" [openDelay]="300" [closeDelay]="150">
+              <span class="span-color-hover" > Редагувати</span><i class="far fa-edit span-color-hover"></i>
+            </span>
+            <hr>
+            <span (click)="deleteCategory(oneCatehory)" class="cursorPointer span-color-hover"
+              ngbTooltip="Видалити категорію" [openDelay]="300" [closeDelay]="150">
+              <span class="span-color-hover">Видалити</span>
+              <i class="far fa-trash-alt span-color-hover"></i>
+            </span>
+            <!-- <small>Редагувати</small><i (click)="editCategoryFun(oneCatehory.id)" class="far fa-edit" ngbTooltip="Редагувати категорію"
+              [openDelay]="300" [closeDelay]="150"></i> | -->
+            <!-- <i class="far fa-trash-alt" (click)="deleteCategory(oneCatehory)" ngbTooltip="Видалити категорію"
+              [openDelay]="300" [closeDelay]="150"></i> -->
+          </div>
+
+        </td>
+        <!-- [routerLink]="[ 'editCategory/' + oneCatehory?.id ]" -->
+        <!-- (click)="navToEditPage(oneCatehory.id)" -->
+        <!-- (click)="navToEditPage(oneCatehory.id)" -->
+        <!-- [routerLink]="['editCategory/'{{oneCatehory.id}}]"     class='far fa-edit'  -->
+        <!-- <i class="far fa-edit" routerLink="editCategory/{{oneCatehory.id}}"></i> -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Pagination -->
+<!-- <pagination-controls (pageChange)="p = $event" autoHide="true" responsive="true"></pagination-controls> -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+<!-- No data shows when their is no student data available -->
+<!-- <div class="no-data text-center" *ngIf="noData"> -->
+<!-- <img src="assets/no-student.svg" class="nodata-msg" alt="No student"> -->
+<!-- <p class="nodata-msg">No student added yet!</p> -->
+<!-- <a [routerLink]="addCategory" class="btn btn-success">
+      <i class="fas fa-plus custom-fa-plus"></i>
+      Add Student
+    </a> -->
+<!-- </div> -->
+
+<!-- Preloader shows before the data loads-->
+<!-- <div class="no-data text-center" *ngIf="preLoader"> -->
+<!-- <img src="assets/preloader.gif" class="preloader-icon" alt="No student"> -->
+<!-- </div> -->
+
+<!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Students List</h1> -->
+<!-- It won't show if there is no student data -->
+<!-- <a routerLink="/addCategory" class="btn btn-success" *ngIf="hideWhenNoStudent"> -->
+<!-- <i class="fas fa-plus custom-fa-plus"></i>
+      Add Student
+    </a>
+  </div> -->

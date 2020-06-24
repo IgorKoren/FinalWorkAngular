@@ -1,0 +1,533 @@
+
+
+// Для анімації інпута
+
+// body{
+//     margin:0px;
+//     padding:0px;
+//     width:100%;
+//     height:100vh;
+//     font-family: 'Lato';
+//     background-color: #fff;
+// }
+.wrapper{
+    width:50%;
+    height:50px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+.wrapper input{
+    width:100%;
+    height:100%;
+    color:#000;
+    padding-top:10px;
+    border:none;
+    font-size: 16px;
+    outline: none;
+    background-color: transparent;
+}
+.wrapper label{
+    position: absolute;
+    left:0px;
+    bottom: 0px;
+    width:100%;
+    height:100%;
+    pointer-events: none;
+    border-bottom: 3px solid #efefef;
+}
+.wrapper label:after{
+    content:'';
+    width:100%;
+    height:100%;
+    left:0px;
+    bottom:-3px;
+    border-bottom: 3px solid #3498db;
+    position: absolute;
+    transform: translateX(-100%);
+    transition: all .6s ease;
+}
+.wrapper label span{
+    position: absolute;
+    bottom:5px;
+    left:0px;
+    transition: all .6s ease;
+    color:#95a5a6;
+}
+.wrapper input:focus + label span,
+.wrapper input:valid + label span{
+    transform: translateY(-20px);
+    transition: all .6s ease;
+    color:#3498db;
+}
+.wrapper input:focus + label:after,
+.wrapper input:valid + label:after{
+    transform: translateX(0%);
+    transition: all .6s ease;
+}
+
+/*  footer   */
+footer {
+    background-color: #222;
+    color: #fff;
+    font-size: 14px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+}
+footer p {
+    margin: 10px 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida  Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+footer .fa-heart{
+    color: red;
+}
+footer .fa-dev{
+    color: #fff;
+}
+footer .fa-twitter-square{
+  color:#1da0f1;
+}
+footer .fa-instagram{
+  color: #f0007c;
+}
+fotter .fa-linkedin{
+  color:#0073b1;
+}
+footer .fa-codepen{
+  color:#fff
+}
+footer a {
+    color: #3c97bf;
+    text-decoration: none;
+  margin-right:5px;
+}
+.youtubeBtn{
+    position: fixed;
+    left: 50%;
+  transform:translatex(-50%);
+    bottom: 45px;
+    cursor: pointer;
+    transition: all .3s;
+    vertical-align: middle;
+    text-align: center;
+    display: inline-block;
+}
+.youtubeBtn i{
+   font-size:20px;
+  float:left;
+}
+.youtubeBtn a{
+    color:#ff0000;
+    animation: youtubeAnim 1000ms linear infinite;
+  float:right;
+}
+.youtubeBtn a:hover{
+  color:#c9110f;
+  transition:all .3s ease-in-out;
+}
+.youtubeBtn i:active{
+  transform:scale(.9);
+  transition:all .3s ease-in-out;
+}
+.youtubeBtn span{
+    font-family: 'Lato';
+    font-weight: bold;
+    color: #000;
+    display: block;
+    font-size: 12px;
+    float: right;
+    line-height: 20px;
+    padding-left: 5px;
+  
+}
+
+@keyframes youtubeAnim{
+  0%,100%{
+    color:#c9110f;
+  }
+  50%{
+    color:#ff0000;
+  }
+}
+/* footer  */
+
+// Result
+// EDIT ON
+.si {
+  --color-default: #dee5f2;
+  --color-active: #0069ff;
+  --rotate-default: 180deg;
+  --rotate-active: 40deg;
+  --border-size-checkmark: 2px;
+  --border-size-box: 1px;
+  --input-size: 20px;
+  --guter: 15px;
+}
+
+.si,
+.si *,
+.si *::before,
+.si *::after {
+  box-sizing: border-box;
+}
+.si-label {
+    line-height: 0.7rem;
+    text-indent: .8rem;
+}
+#defaultRadio {
+    line-height: 3.5rem;
+    text-indent: .8rem;
+}
+.si {
+  cursor: pointer;
+  position: relative;
+}
+
+.si > input[type="checkbox"],
+.si > input[type="radio"] {
+  clip-path: polygon(0 0);
+}
+
+.si .si-label {
+  display: inline-block;
+  padding-left: var(--guter);
+  color: #9aa6bf;
+  vertical-align: text-top;
+}
+
+.si .si-label::before,
+.si .si-label::after {
+  transition: all 0.2s ease-in-out;
+}
+
+.si .si-label::before {
+  content: '';
+  display: block;
+  width: var(--input-size);
+  height: var(--input-size);
+  border: var(--border-size-box) solid var(--color-default);
+  position: absolute;
+  top: -3px;
+  left: 0;
+  transform: rotate(0deg) scale(1);
+}
+
+.si .si-label:hover::before {
+  border-color: var(--color-active);
+}
+
+.si.si-checkbox .si-label::before {
+  border-radius: var(--border-size-checkmark);
+}
+
+.si.si-checkbox .si-label::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 18px;
+  border-width: 0 var(--border-size-checkmark) var(--border-size-checkmark) 0;
+  border-style: solid;
+  border-color: transparent var(--color-active) var(--color-active) transparent;
+  position: absolute;
+  top: -3px;
+  left: 0;
+  transform: rotate(var(--rotate-default)) scale(0);
+}
+
+.si.si-checkbox > input:checked + .si-label::after {
+  left: 8px;
+  transform: rotate(var(--rotate-active)) scale(1);
+}
+
+.si.si-checkbox > input:checked + .si-label::before {
+  transform: rotate(var(--rotate-active)) scale(0);
+}
+
+.si.si-radio .si-label::before,
+.si.si-radio .si-label::after {
+  border-radius: 100%;
+  top: -2px;
+}
+
+.si.si-radio .si-label::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 12px;
+  height: 0;
+  top: 100%;
+  left: 4px;
+}
+
+.si.si-radio > input:checked + .si-label::after {
+  background-color: #fff;
+  height: 12px;
+  top: 2px;
+}
+
+.si.si-radio > input:checked + .si-label::before {
+  background-color:var(--color-active);
+}
+
+.si.si-switcher .si-label {
+  padding-left: 45px;
+}
+
+.si.si-switcher .si-label::before {
+  content: '';
+  width: 36px;
+  height: 20px;
+  border-radius: 20px;
+  top: -2px;
+}
+
+.si.si-switcher .si-label::after {
+  content: '';
+  border-radius: 4px;
+  width: 6px;
+  height: 12px;
+  background-color: var(--color-default);
+  position: absolute;
+  top: 2px;
+  left: 7px;
+}
+
+.si.si-switcher > input:checked + .si-label::before {
+  background-color: var(--color-active);
+  border-color: var(--color-active);
+}
+
+.si.si-switcher > input:checked + .si-label::after {
+  background-color: #fff;
+  left: 24px;
+}
+
+.si [data-onchecked="show"],
+.si > input:checked ~ [data-onchecked="hide"] {
+  display: none;
+}
+
+.si [data-onchecked="hide"],
+.si > input:checked ~ [data-onchecked="show"] {
+  display: inline-block;
+}
+
+.si > input:checked + .si-label.line-across {
+  text-decoration: line-through;
+}
+
+
+/* the following style rules used for demo purpose */
+body {
+  font-family: arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+h1, h2, p {
+  font-family: 'Quicksand', sans-serif;
+}
+
+h1 { font-size: 36px; }
+p { font-size: 20px; }
+header {
+  border-bottom: 1px solid #000;
+}
+
+.list li {
+  display: block;
+  margin-bottom: 10px;
+}
+
+
+/////////////////
+// CSS
+// Start by adding common style rules
+/* custom properties (AKA css variables) */
+.si {
+  --color-label: #9aa6bf;
+  --color-default: #dee5f2;
+  --color-active: #0069ff;
+  --rotate-default: 180deg;
+  --rotate-active: 40deg;
+  --border-size-checkmark: 2px;
+  --border-size-box: 1px;
+  --input-size: 20px;
+  --guter: 15px;
+}
+
+/* basic reset */
+.si,
+.si *,
+.si *::before,
+.si *::after {
+  box-sizing: border-box;
+}
+
+/* label */
+.si {
+  cursor: pointer;
+  position: relative;
+}
+
+.si .si-label {
+  display: inline-block;
+  padding-left: var(--guter);
+  color: var(--color-label);
+  vertical-align: text-top;
+}
+// Next up we have to hide the input field. There are several ways to get this done:
+.si > input { display: none; }
+/* OR */ 
+.si > input { opacity: 0; }
+/* OR */ 
+.si > input { visibility: hidden; }
+// By applying any of these will make the input field inaccessible by screen readers. There's elegant way to hide elements with clip-path and keep them accessible
+.si > input[type="checkbox"],
+.si > input[type="radio"] {
+  clip-path: polygon(0 0);
+}
+// Pseudo-element
+// We'll use ::before and ::after to represent our checkbox (square and checkmark) and radio (two circles)
+/* change property values smoothly */
+.si .si-label::before,
+.si .si-label::after {
+  transition: all 0.2s ease-in-out;
+}
+
+/* an element for both checkbox and radio */
+.si .si-label::before {
+  content: '';
+  display: block;
+  width: var(--input-size);
+  height: var(--input-size);
+  border: var(--border-size-box) solid var(--color-default);
+  position: absolute;
+  top: -3px;
+  left: 0;
+  transform: rotate(0deg) scale(1);
+}
+
+/* feedback when the user interacts with an element */
+.si .si-label:hover::before {
+  border-color: var(--color-active);
+}
+// CSS: Checkboxes
+// default state:
+/* checkbox square */
+.si.si-checkbox .si-label::before {
+  border-radius: var(--border-size-checkmark);
+}
+
+/* checkbox checkmark */
+.si.si-checkbox .si-label::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 18px;
+  border-width: 0 var(--border-size-checkmark) var(--border-size-checkmark) 0;
+  border-style: solid;
+  border-color: transparent var(--color-active) var(--color-active) transparent;
+  position: absolute;
+  top: -3px;
+  left: 0;
+  transform: rotate(var(--rotate-default)) scale(0);
+}
+// checked state:
+/* checkbox square */
+.si.si-checkbox > input:checked + .si-label::before {
+  transform: rotate(var(--rotate-active)) scale(0);
+}
+
+/* checkmark */
+.si.si-checkbox > input:checked + .si-label::after {
+  left: 8px;
+  transform: rotate(var(--rotate-active)) scale(1);
+}
+// CSS: Radio
+// default state:
+/* circles, alignment */
+.si.si-radio .si-label::before,
+.si.si-radio .si-label::after {
+  border-radius: 100%;
+  top: -2px;
+}
+
+/* radio bullet circle */
+.si.si-radio .si-label::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 12px;
+  height: 0;
+  top: 100%;
+  left: 4px;
+}
+// checked state:
+.si.si-radio > input:checked + .si-label::after {
+  background-color: #fff;
+  height: 12px;
+  top: 2px;
+}
+
+.si.si-radio > input:checked + .si-label::before {
+  background-color:var(--color-active);
+}
+// CSS: Switcher
+// default state:
+/* switcher label gutter */
+.si.si-switcher .si-label {
+  padding-left: 45px;
+}
+
+/* switcher rounded rectangle */
+.si.si-switcher .si-label::before {
+  content: '';
+  width: 36px;
+  height: 20px;
+  border-radius: 20px;
+  top: -2px;
+}
+
+/* switcher bullet */
+.si.si-switcher .si-label::after {
+  content: '';
+  border-radius: 4px;
+  width: 6px;
+  height: 12px;
+  background-color: var(--color-default);
+  position: absolute;
+  top: 2px;
+  left: 7px;
+}
+// checked state:
+.si.si-switcher > input:checked + .si-label::before {
+  background-color: var(--color-active);
+  border-color: var(--color-active);
+}
+
+.si.si-switcher > input:checked + .si-label::after {
+  background-color: #fff;
+  left: 24px;
+}
+// CSS: Extras
+.si [data-onchecked="show"],
+.si > input:checked ~ [data-onchecked="hide"] {
+  display: none;
+}
+
+.si [data-onchecked="hide"],
+.si > input:checked ~ [data-onchecked="show"] {
+  display: inline-block;
+}
+
+.si > input:checked + .si-label.line-across {
+  text-decoration: line-through;
+}

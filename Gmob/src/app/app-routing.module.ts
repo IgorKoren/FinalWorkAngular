@@ -18,6 +18,11 @@ import { RegisterNewUserComponent } from './sing-in/register-new-user/register-n
 import { PasswordRecoveryComponent } from './sing-in/password-recovery/password-recovery.component';
 import { AdminEditProductComponent } from './admin-panel/admin-products/admin-edit-product/admin-edit-product.component';
 import { AdminAddProductComponent } from './admin-panel/admin-products/admin-add-product/admin-add-product.component';
+import { AddCategoryComponent } from './admin-panel/admin-category/add-category/add-category.component';
+import { EditCategoryComponent } from './admin-panel/admin-category/edit-category/edit-category.component';
+
+
+
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -41,7 +46,12 @@ const routes: Routes = [
     //  canActivate: [AuthGuard],
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'products' },
-      { path: 'category', component: AdminCategoryComponent },
+      { path: 'category', component: AdminCategoryComponent, children:
+      [
+        { path: 'addCategory', component: AddCategoryComponent },
+        { path: 'editCategory', component: EditCategoryComponent },
+        { path: 'editCategory/:id', component: EditCategoryComponent }
+      ] },
       { path: 'products', component: AdminProductsComponent, children: [
         { path: 'edit-product', component: AdminEditProductComponent },
         { path: 'add-produc', component: AdminAddProductComponent }

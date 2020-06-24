@@ -40,6 +40,15 @@ import { AdminUsersComponent } from './admin-panel/admin-users/admin-users.compo
 import { SingInHeaderButtonComponent } from './sing-in/sing-in-header-button/sing-in-header-button.component';
 import { RegisterNewUserComponent } from './sing-in/register-new-user/register-new-user.component';
 import { PasswordRecoveryComponent } from './sing-in/password-recovery/password-recovery.component';
+import { AddCategoryComponent } from './admin-panel/admin-category/add-category/add-category.component';
+import { EditCategoryComponent } from './admin-panel/admin-category/edit-category/edit-category.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { CategoryListComponent } from './admin-panel/admin-category/category-list/category-list.component';
+import { HtmlComponentsComponent } from './html-components/html-components.component';
+
+import { NgbdTooltipDelay } from './components/tooltip/ngbd-tooltip-delay/ngbd-tooltip-delay.component';
+import { QuillModule } from 'ngx-quill'
 
 
 
@@ -70,7 +79,13 @@ import { PasswordRecoveryComponent } from './sing-in/password-recovery/password-
     AdminUsersComponent,
     SingInHeaderButtonComponent,
     RegisterNewUserComponent,
-    PasswordRecoveryComponent
+    PasswordRecoveryComponent,
+    AddCategoryComponent,
+    EditCategoryComponent,
+    CategoryListComponent,
+    HtmlComponentsComponent,
+    
+    NgbdTooltipDelay
 
   ],
   imports: [
@@ -84,7 +99,10 @@ import { PasswordRecoveryComponent } from './sing-in/password-recovery/password-
     NgbPaginationModule,
     NgbAlertModule,
     FontAwesomeModule,
-    NgxTrimDirectiveModule
+    NgxTrimDirectiveModule,
+    FormsModule,
+    ReactiveFormsModule,
+    QuillModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
