@@ -1,6 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.snow.css';
+// @import '~bootstrap/scss/bootstrap';
+
+.cursorPointer{
+    cursor: pointer; 
+  }
+  .conteiner-for-Descriptions{
+    max-height: 220px;
+    // text-overflow: scroll;
+    overflow-y: scroll;
+  }
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

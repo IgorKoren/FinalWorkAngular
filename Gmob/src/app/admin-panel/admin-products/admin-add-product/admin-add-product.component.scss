@@ -1,0 +1,197 @@
+// .ng-valid[required], .ng-valid.required  {
+//   border-left: 5px solid #42A948; /* green */
+// }
+
+// .ng-invalid:not(form)  {
+//   border-left: 5px solid #a94442; /* red */
+// }
+
+
+
+//Стиля для Drag and Drop
+.cdk-drag-preview {
+  display: none;
+  // opacity: 50;
+}
+
+.example-list {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 1rem;
+  border: solid 1px #ccc;
+  // min-height: 60px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  // flex-shrink: 150px;
+  // flex-basis: 350px;
+  // flex-flow: 1 1 0;
+
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.example-box {
+  padding: 20px 10px;
+  border-right: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+
+  // flex-grow: 1;
+  // flex-basis: 0;
+  // flex-basis: 350px;
+}
+
+.cdk-drag-preview {
+ 
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 50;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-custom-placeholder {
+  background: #E9ECEF;
+  width: 160px;
+  border-radius: 8px;
+  border: dotted 2px #999;
+
+  min-height: 100%;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+
+}
+
+
+
+
+
+
+
+
+.is-invalid:not(form) {
+  border-left: 5px solid #a94442;
+  /* red */
+}
+
+.is-valid[required],
+.is-valid.required {
+  border-left: 5px solid #42A948;
+  /* green */
+}
+
+.bor {
+  //   background-color: lightgrey;
+  border: 1px dashed lightslategray;
+  border-radius: 8px;
+  padding: 1rem;
+
+}
+
+input[type="radio"]~label {
+  cursor: pointer;
+  
+
+  
+}
+
+.imgeWrap {
+
+
+
+  .itemFotoConteiner {
+    display: inline-flex;
+
+    // display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 160px;
+    height: 220px;
+    margin: 12px 8px;
+    padding: 5px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .itemFoto {
+      
+     
+      height: 160px;
+      width: 160px;
+     
+      overflow: hidden;
+      object-fit: contain;
+      object-position: center;
+
+    }
+
+    img {
+      height: 100%;
+     width: 100%;
+      display: block;
+      background-size: contain;
+      border-radius: 5px;
+      object-fit: contain;
+      object-position: center;
+      
+
+      // background-size: cover;
+      // background-position: center;
+      // background-repeat: no-repeat;
+      
+
+    }
+
+    .itemFotoConteinerButtons {
+      display: flex;
+      justify-content: center;
+
+    }
+
+  }
+}
+.titleInput{
+  margin: 16px 0 8px 0;
+  font-weight: 500;
+  font-size: .9rem;
+}
+.titleInput2{
+
+  font-weight: 500;
+  font-size: .9rem;
+}
+.alBaseLine{
+  vertical-align: bottom;
+  line-height: -2rem;
+  font-style: 1rem;
+}
+
+
+

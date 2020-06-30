@@ -20,12 +20,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent implements OnInit {
-  
   // FireStorage
   isLoadingImage = false;
   uploadProgress: Observable<number>;
   productImage: string;
-
+  categoryFile: any;
+  public loadEvent: any;
   public dataCategory: any;
   public categoryForm: FormGroup;  // Define FormGroup to student's form
   public isEdit = false;
@@ -34,11 +34,7 @@ export class CategoryListComponent implements OnInit {
   hideWhenNoStudent = false; // Hide students data table when no student.
   noData = false;            // Showing No Student Message, when no student in database.
   preLoader = true;          // Showing Preloader to show user data is coming for you from thre server(A tiny UX Shit)
-
   constructor(
-
-    
-
     private afStorage: AngularFireStorage,
     public fb: FormBuilder,
     public сategoryService: CategoryService,
@@ -58,46 +54,94 @@ export class CategoryListComponent implements OnInit {
       data.forEach(item => {
         const a = item.payload.toJSON();
         console.log(a);
-
         a['id'] = item.key;
         // console.log(a['Id']);
         // console.log(a, 'aaaaaaaaaaaaaaaaaaaaaa');
         this.category.push(a as ICategory);
       });
     });
-
     // Для секції додавання категорії
     this.сategoryService.getCategoryList();
     this.catForm();
 
   }
-  removeImage(productImage: string): void {
-    console.log('Видалити картинку ' );
-    this.сategoryService.deleteImageInDB(productImage);
+  removeImage(categoryFile: any): void {
+    console.log('Видалити картинку ');
+    this.сategoryService.deleteImageInDB(categoryFile)
+      .then((returnCategoryFile) => {
+        console.log('Катринка успішно видалена -111111');
+        console.log(returnCategoryFile);
+        this.productImage = '';
+        this.uploadProgress = null;
+        this.categoryForm.get('imageUrl').patchValue('');
+        this.uploadFile(this.loadEvent)
+      })
+      .catch((error) => {
+        console.log('ПРОБЛЕМА 1 ' + error.code);
+        console.log('ПРОБЛЕМА 2 ' + error.message);
+        console.log('ПРОБЛЕМА 2 ' + error.status);
+      });
+  }
+
+  removeImageBtn(categoryFile: any): void {
+    console.log('Видалити картинку ');
+    this.сategoryService.deleteImageInDB(categoryFile)
+      .then((returnCategoryFile) => {
+        console.log('Катринка успішно видалена -111111');
+        console.log(returnCategoryFile);
+        this.productImage = '';
+        this.uploadProgress = null;
+        this.categoryForm.get('imageUrl').patchValue('');
+      })
+      .catch((error) => {
+        console.log('ПРОБЛЕМА 1 ' + error.code);
+        console.log('ПРОБЛЕМА 2 ' + error.message);
+        console.log('ПРОБЛЕМА 2 ' + error.status);
+      });
   }
 
 
   uploadFile(event) {
-    console.log('sjdnjsjkdddddddddddddddddddddddddddddddddddddddd');
+    if ( this.productImage){
+      console.log('Видалити з бази попередню картинку...', this.productImage);
+      this.loadEvent = event;
 
-    const file = event.target.files[0];
-    console.log(file);
-    const filePath = `images/${this.uuid()}.${file.type.split('/')[1]}`;
-    console.log(filePath);
-    const task = this.afStorage.upload(filePath, file);
-    console.log(task);
-    this.uploadProgress = task.percentageChanges();
-    console.log(this.uploadProgress);
-    task.then(e => {
-      this.afStorage.ref(`images/${e.metadata.name}`).getDownloadURL().subscribe(url => {
-        this.productImage = url;
-        console.log( this.productImage);
-        this.categoryForm.get('imageUrl').setValue(this.productImage);
-        // this.uploadProgress = null;
-        // window.alert(`Картинка  - ${this.productImage}  завантажена` )
+      console.log(this.loadEvent);
+
+      this.removeImage(this.productImage);
+    } else if (!this.productImage) {
+      
+      console.log('sjdnjsjkdddddddddddddddddddddddddddddddddddddddd');
+      const file = event.target.files[0];
+      console.log(file);
+      console.log(file.name);
+      let filePath = `${this.uuid()}.${file.type.split('/')[1]}`;
+      this.categoryFile = `images/` + filePath;
+      console.log(this.categoryFile);
+      filePath = `images/` + filePath;
+      // this.categoryPath = file.name;
+  
+      console.log(filePath);
+      const task = this.afStorage.upload(filePath, file);
+      console.log(task);
+      this.uploadProgress = task.percentageChanges();
+      console.log(this.uploadProgress);
+      task.then(e => {
+        this.afStorage.ref(`images/${e.metadata.name}`).getDownloadURL().subscribe(url => {
+          this.productImage = url;
+          console.log(this.productImage);
+          this.categoryForm.get('imageUrl').setValue(this.productImage);
+
+          // this.loadEvent = null;
+
+          // this.uploadProgress = null;
+          // window.alert(`Картинка  - ${this.productImage}  завантажена` )
+        });
       });
-    });
-  }
+    }
+    }
+
+    
   uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -105,7 +149,7 @@ export class CategoryListComponent implements OnInit {
     });
   }
 
- 
+
 
   editCategoryFun(oneCatehory: string): void {
     this.isEdit = true;
@@ -189,21 +233,20 @@ export class CategoryListComponent implements OnInit {
   }
 
 
- 
+
   resetForm() {
     this.categoryForm.reset();
-    this.productImage ='';
+    this.productImage = '';
     this.isEdit = false;
     this.uploadProgress = null;
   }
   submitCategoryData() {
     if (!this.isEdit) {
-     
       this.isEdit = false;
       console.log(this.categoryForm.value);
       this.сategoryService.addCategory(this.categoryForm.value);
       // this.toastr.success(this.studentForm.controls['firstName'].value + ' successfully added!');
-      this.productImage ='';
+      this.productImage = '';
     } else {
       console.log(this.categoryForm.value, '444444');
       this.updateForm();
@@ -225,7 +268,7 @@ export class CategoryListComponent implements OnInit {
         this.hideWhenNoStudent = true;
         this.noData = false;
         this.resetForm();
-        
+
       }
     });
   }

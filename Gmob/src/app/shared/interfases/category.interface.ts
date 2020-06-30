@@ -5,4 +5,6 @@ export interface ICategory {
     imageUrl: string;
     description: string;
     parentCategories?: string;
+    catecategoryIDDB?: string;
+
 }

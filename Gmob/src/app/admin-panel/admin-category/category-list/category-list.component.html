@@ -46,12 +46,9 @@
         <!-- <p *ngIf="mobileNumber.errors?.pattern" class="error"><sup>*</sup>Use numbers only
                   number</p> -->
       </div>
-      <quill-editor formControlName="description" 
-      [styles]="{height: '250px'}" 
-      [trimOnValidation]="true"
-      placeholder='Введіть текст...'
-      >
-        <div quill-editor-toolbar >
+      <quill-editor formControlName="description" [styles]="{height: '250px'}" [trimOnValidation]="true"
+        placeholder='Введіть текст...'>
+        <div quill-editor-toolbar>
           <span class="ql-formats">
             <select class="ql-font">
               <option selected></option>
@@ -65,17 +62,20 @@
               <option value="huge"></option>
             </select>
           </span>
-          <span class="ql-formats"><span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0" role="button"
-                aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18">
+          <span class="ql-formats"><span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0"
+                role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18">
                   <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon>
                   <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon>
-                </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-5"><span
-                  tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button"
-                  class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"
-                  data-value="3"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="4"></span><span
-                  tabindex="0" role="button" class="ql-picker-item" data-value="5"></span><span tabindex="0" role="button"
-                  class="ql-picker-item" data-value="6"></span><span tabindex="0" role="button"
-                  class="ql-picker-item ql-selected"></span></span></span><select class="ql-header" style="display: none;">
+                </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1"
+                id="ql-picker-options-5"><span tabindex="0" role="button" class="ql-picker-item"
+                  data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item"
+                  data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"
+                  data-value="3"></span><span tabindex="0" role="button" class="ql-picker-item"
+                  data-value="4"></span><span tabindex="0" role="button" class="ql-picker-item"
+                  data-value="5"></span><span tabindex="0" role="button" class="ql-picker-item"
+                  data-value="6"></span><span tabindex="0" role="button"
+                  class="ql-picker-item ql-selected"></span></span></span><select class="ql-header"
+              style="display: none;">
               <option value="1"></option>
               <option value="2"></option>
               <option value="3"></option>
@@ -159,7 +159,7 @@
                 <line class="ql-stroke" x1="15" x2="11" y1="11" y2="15"></line>
                 <rect class="ql-fill" height="1" rx="0.5" ry="0.5" width="7" x="2" y="14"></rect>
               </svg></button></span>
-      
+
         </div>
       </quill-editor>
 
@@ -186,16 +186,20 @@
 
     </div>
 
-    <div class=" form-group d40 ">
-      <div class="imageCont">
-        <ng-container *ngIf="productImage; else elseTemplate">
-          <img [style.backgroundImage]="'url(' + productImage + ')'"><br>
-        </ng-container>
-        <ng-template #elseTemplate>
-          <div class="img-placeholder">Додайте фото...</div>
-        </ng-template>
-
-
+    <div class=" form-group d40  ">
+          
+          <div class="imageCont ">
+        <div class="cursorPointer" (click)="ev.click()" >
+          <ng-container *ngIf="productImage; else elseTemplate">
+            <img [style.backgroundImage]="'url(' + productImage + ')'"><br>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <div class="img-placeholder">
+              <!-- <p class="bigPlus ">+</p> -->
+              <p>Додайте фото...</p>
+            </div>
+          </ng-template>
+        </div>
 
         <small>Процент завантаження: {{uploadProgress | async |  number: '1.0'}} %</small>
         <div class="progress mt-2 mb-2">
@@ -203,12 +207,10 @@
           <div class="progress-bar progress-bar-striped bg-success" style.heigth="5px" role="progressbar"
             [style.width]="(uploadProgress | async) + '%'" aria-valuemin="0" aria-valuemax="100">
           </div>
-
-
-
         </div>
         <div class="custom-file">
-          <input (change)="uploadFile($event)" accept="image/*" type="file" class="custom-file-input" id="customFile">
+          <input  #ev (change)="uploadFile($event)"  accept="image/*" type="file" class="custom-file-input"
+            id="customFile" data-browse="Завантажити">
           <label class="custom-file-label" for="customFile">Вибрати картинку</label>
         </div>
 
@@ -217,7 +219,7 @@
 
         <label>URL картинки:</label>
         <input type="text" formControlName="imageUrl" class="form-control btn-sm" required>
-        <button type="button" (click)="removeImage(productImage)" [disabled]="!productImage"
+        <button type="button" (click)="removeImageBtn(productImage)" [disabled]="!productImage"
           class="btn btn-info btn-sm mt-2 mb-1">Видалити картинку </button>
         <!-- Showing errors using getter method -->
         <!-- <p *ngIf="description.touched && description.invalid" class="error"><sup>*</sup>Please provide contact
@@ -348,17 +350,17 @@
             <small>
               {{oneCatehory?.description}}
             </small>
-            
+
           </div>
-         
-        </td >
+
+        </td>
         <!-- <td scope="row"> <a [href]="oneCatehory?.imageUrl" target="_blanck">{{oneCatehory?.imageUrl}}</a>
           </td> -->
         <td class="text-center w-min-150px">
-             <div class=" d-fl-centr ">
+          <div class=" d-fl-centr ">
             <span (click)="editCategoryFun(oneCatehory.id)" class="cursorPointer span-color-hover"
               ngbTooltip="Редагувати категорію" [openDelay]="300" [closeDelay]="150">
-              <span class="span-color-hover" > Редагувати</span><i class="far fa-edit span-color-hover"></i>
+              <span class="span-color-hover"> Редагувати</span><i class="far fa-edit span-color-hover"></i>
             </span>
             <hr>
             <span (click)="deleteCategory(oneCatehory)" class="cursorPointer span-color-hover"

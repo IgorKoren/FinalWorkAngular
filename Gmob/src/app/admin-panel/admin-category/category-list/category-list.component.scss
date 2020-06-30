@@ -2,18 +2,18 @@ tbody,
 thead * {
   font-size: .9rem;
 }
-.cursorPointer{
-  cursor: pointer;
-  
+.bigPlus{
+  font-size: 15rem;
+  font-weight: 900;
 }
-.conteiner-for-Descriptions{
-  max-height: 220px;
-  // text-overflow: scroll;
-  overflow-y: scroll;
-  
-
-
-}
+// .cursorPointer{
+//   cursor: pointer; 
+// }
+// .conteiner-for-Descriptions{
+//   max-height: 220px;
+//   // text-overflow: scroll;
+//   overflow-y: scroll;
+// }
 .w-min-150px{
   min-width: 150px;
 }
@@ -77,6 +77,7 @@ tbody tr i {
   padding: 10px;
   margin-top: 20px;
   
+  
   // border: 1px solid grey;
 
   img {
@@ -85,6 +86,7 @@ tbody tr i {
     height: 394px;
     object-fit: contain;
     background-size: contain;
+    border-radius: 15px;
     // background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

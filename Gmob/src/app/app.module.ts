@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { Routes, RouterModule } from '@angular/router';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -48,7 +49,8 @@ import { CategoryListComponent } from './admin-panel/admin-category/category-lis
 import { HtmlComponentsComponent } from './html-components/html-components.component';
 
 import { NgbdTooltipDelay } from './components/tooltip/ngbd-tooltip-delay/ngbd-tooltip-delay.component';
-import { QuillModule } from 'ngx-quill'
+import { QuillModule } from 'ngx-quill';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 
 
@@ -56,6 +58,7 @@ import { QuillModule } from 'ngx-quill'
 @NgModule({
   declarations: [
     AppComponent,
+   
     MainPageComponent,
     ShopComponent,
     HowDoesItWorkComponent,
@@ -93,6 +96,8 @@ import { QuillModule } from 'ngx-quill'
     RouterModule,
     AppRoutingModule,
     NgbModule,
+    BrowserAnimationsModule,
+    DragDropModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     AngularFireDatabaseModule,
@@ -103,8 +108,10 @@ import { QuillModule } from 'ngx-quill'
     FormsModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),
+    BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
