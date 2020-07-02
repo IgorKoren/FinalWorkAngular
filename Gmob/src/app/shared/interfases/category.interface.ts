@@ -4,7 +4,10 @@ export interface ICategory {
     nameEN: string;
     imageUrl: string;
     description: string;
-    parentCategories?: string;
-    catecategoryIDDB?: string;
+    productListInCategory?: string[];
+    // parentCategories?: string[];
+    // categoryIDDB?: string;
+
+    
 
 }

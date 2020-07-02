@@ -10,6 +10,7 @@ import { CategoryService } from 'src/app/shared/services/category.service';
 export class AddCategoryComponent implements OnInit {
   public categoryForm: FormGroup;  // Define FormGroup to student's form
   public isEdit = false;
+  public productListInCategoryPlace = ['s']
 
   constructor(
     public сategoryService: CategoryService,  // CRUD API services
@@ -24,11 +25,12 @@ export class AddCategoryComponent implements OnInit {
   // Reactive category form
   catForm() {
     this.categoryForm = this.fb.group({
-      categoryId: [''],
-      nameUA: [''],
-      nameEN: [''],
-      imageUrl: [''],
-      description: ['']
+      categoryId: ['11'],
+      nameUA: ['111'],
+      nameEN: ['444'],
+      imageUrl: ['555'],
+      description: ['fgnfgn'],
+      productListInCategory: [this.productListInCategoryPlace]
       // [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]
       // , [Validators.required, Validators.pattern('^[0-9]+$')]
     })
@@ -48,6 +50,9 @@ export class AddCategoryComponent implements OnInit {
   }
   get imageUrl() {
     return this.categoryForm.get('imageUrl');
+  }
+  get productListInCategory() {
+    return this.categoryForm.get('productListInCategory');
   }
   // Reset student form's values
   resetForm() {

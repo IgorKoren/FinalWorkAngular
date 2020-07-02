@@ -13,6 +13,7 @@ import { Location } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/storage';
 import 'firebase/storage';
 import { Observable } from 'rxjs';
+import { Category } from 'src/app/shared/models/category.model';
 
 @Component({
   selector: 'app-category-list',
@@ -33,7 +34,9 @@ export class CategoryListComponent implements OnInit {
   category: ICategory[];                 // Save students data in Student's array.
   hideWhenNoStudent = false; // Hide students data table when no student.
   noData = false;            // Showing No Student Message, when no student in database.
-  preLoader = true;          // Showing Preloader to show user data is coming for you from thre server(A tiny UX Shit)
+  preLoader = true;
+  productListInCategoryList: string[] = []
+      // Showing Preloader to show user data is coming for you from thre server(A tiny UX Shit)
   constructor(
     private afStorage: AngularFireStorage,
     public fb: FormBuilder,
@@ -63,7 +66,6 @@ export class CategoryListComponent implements OnInit {
     // Для секції додавання категорії
     this.сategoryService.getCategoryList();
     this.catForm();
-
   }
   removeImage(categoryFile: any): void {
     console.log('Видалити картинку ');
@@ -105,9 +107,7 @@ export class CategoryListComponent implements OnInit {
     if ( this.productImage){
       console.log('Видалити з бази попередню картинку...', this.productImage);
       this.loadEvent = event;
-
       console.log(this.loadEvent);
-
       this.removeImage(this.productImage);
     } else if (!this.productImage) {
       
@@ -162,7 +162,8 @@ export class CategoryListComponent implements OnInit {
         nameUA: [data.nameUA],
         nameEN: [data.nameEN],
         description: [data.description],
-        imageUrl: [data.imageUrl]
+        imageUrl: [data.imageUrl],
+        productListInCategory: [data.productListInCategory]
         // [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]
         // , [Validators.required, Validators.pattern('^[0-9]+$')]
       });
@@ -181,7 +182,9 @@ export class CategoryListComponent implements OnInit {
       nameUA: [''],
       nameEN: [''],
       description: [''],
-      imageUrl: ['']
+      imageUrl: [''],
+      productListInCategory: [this.productListInCategoryList]
+    
 
       // [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]
       // , [Validators.required, Validators.pattern('^[0-9]+$')]
@@ -207,6 +210,9 @@ export class CategoryListComponent implements OnInit {
   get imageUrl() {
     return this.categoryForm.get('imageUrl');
   }
+  get productListInCategory() {
+    return this.categoryForm.get('productListInCategory');
+  }
 
   // Contains Reactive Form logic
   updateCategoryData() {
@@ -215,7 +221,8 @@ export class CategoryListComponent implements OnInit {
       nameUA: [''],
       nameEN: [''],
       imageUrl: [''],
-      description: ['']
+      description: [''],
+      productListInCategory: [this.productListInCategoryList]
     });
   }
 
@@ -243,8 +250,23 @@ export class CategoryListComponent implements OnInit {
   submitCategoryData() {
     if (!this.isEdit) {
       this.isEdit = false;
-      console.log(this.categoryForm.value);
-      this.сategoryService.addCategory(this.categoryForm.value);
+      // console.log(this.categoryForm.value);
+
+      const newCategory: ICategory = new Category(
+        this.categoryForm.get('categoryId').value,
+        this.categoryForm.get('nameUA').value,
+        this.categoryForm.get('nameEN').value,
+        this.categoryForm.get('imageUrl').value,
+        this.categoryForm.get('description').value,
+        ['']
+
+        
+        
+      );
+      console.log(newCategory);
+
+
+      this.сategoryService.addCategory(newCategory);
       // this.toastr.success(this.studentForm.controls['firstName'].value + ' successfully added!');
       this.productImage = '';
     } else {

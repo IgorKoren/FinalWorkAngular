@@ -60,7 +60,8 @@ export class EditCategoryComponent implements OnInit {
       nameUA: [''],
       nameEN: [''],
       imageUrl: [''],
-      description: ['']
+      description: [''],
+      productListInCategory: [['eeee']]
     })
   }
 

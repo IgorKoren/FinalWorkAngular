@@ -7,7 +7,10 @@ export class Category implements ICategory {
         public nameEN: string,
         public imageUrl: string,
         public description: string,
-        public parentCategories?: string,
-        public catecategoryIDDB?: string
-    )
+        public productListInCategory?: string[] 
+        // public parentCategories?: string[],
+        // public categoryIDDB?: string
+    ){}
 }
+
+

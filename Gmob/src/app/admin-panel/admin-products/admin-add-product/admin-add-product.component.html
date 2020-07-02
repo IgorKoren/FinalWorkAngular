@@ -455,10 +455,10 @@
           </span></p>
         <div>
           <div class="form-group" *ngFor="let oneCategory of allCategoryesList; let i=index">
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" [checked]="(categoryIdlist.value.includes(oneCategory.catecategoryIDDB, 0))" class="custom-control-input" [id]="oneCategory.nameEN"
+            <div class="custom-control custom-checkbox hover-ef">
+              <input type="checkbox"  [checked]="(categoryIdlist.value.includes(oneCategory.catecategoryIDDB, 0))" class="custom-control-input cursorPointer" [id]="oneCategory.nameEN"
                 [value]="oneCategory.catecategoryIDDB" (click)="onCheckCategory($event, oneCategory.catecategoryIDDB, i)">
-              <label class="custom-control-label" [for]="oneCategory.nameEN">{{oneCategory.nameUA}} |
+              <label class="custom-control-label cursorPointer" [for]="oneCategory.nameEN">{{oneCategory.nameUA}} |
                 {{oneCategory.catecategoryIDDB}}</label>
             </div>
           </div>

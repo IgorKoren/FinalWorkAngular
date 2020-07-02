@@ -172,9 +172,7 @@ input[type="radio"]~label {
     .itemFotoConteinerButtons {
       display: flex;
       justify-content: center;
-
     }
-
   }
 }
 .titleInput{
@@ -192,6 +190,13 @@ input[type="radio"]~label {
   line-height: -2rem;
   font-style: 1rem;
 }
-
+.hover-ef:hover{
+  background-color: lightgray;
+  cursor: pointer;
+}
+// .hover-ef{
+//   background-color: lightgray;
+//   color: green;
+// }
 
 

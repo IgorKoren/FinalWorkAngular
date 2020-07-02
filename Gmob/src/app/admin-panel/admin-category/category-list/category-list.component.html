@@ -27,6 +27,7 @@
       <div class="form-group mb-3">
         <label>Назва категорії на українській мові</label>
         <input type="text" formControlName="nameUA" class="form-control">
+        <!-- <input type="text" formControlName="productListInCategory" class="form-control"> -->
       </div>
 
       <div class="form-group mb-3">
@@ -187,9 +188,9 @@
     </div>
 
     <div class=" form-group d40  ">
-          
-          <div class="imageCont ">
-        <div class="cursorPointer" (click)="ev.click()" >
+
+      <div class="imageCont ">
+        <div class="cursorPointer" (click)="ev.click()">
           <ng-container *ngIf="productImage; else elseTemplate">
             <img [style.backgroundImage]="'url(' + productImage + ')'"><br>
           </ng-container>
@@ -209,7 +210,7 @@
           </div>
         </div>
         <div class="custom-file">
-          <input  #ev (change)="uploadFile($event)"  accept="image/*" type="file" class="custom-file-input"
+          <input #ev (change)="uploadFile($event)" accept="image/*" type="file" class="custom-file-input"
             id="customFile" data-browse="Завантажити">
           <label class="custom-file-label" for="customFile">Вибрати картинку</label>
         </div>
@@ -325,7 +326,10 @@
       <tr>
         <!-- <th scope="col">Student Id firebase</th> -->
         <th class="text-center" scope="col">ID категорії</th>
-        <th class="text-center" scope="col">Назва UA</th>
+        <th class="text-center" scope="col">Назва UA
+
+
+        </th>
         <th class="text-center" scope="col">Назва EN</th>
         <th class="text-center" scope="col">Фото</th>
         <th class="text-center" scope="col">Опис</th>
@@ -336,8 +340,22 @@
       <tr *ngFor="let oneCatehory of category; let i = index;">
         <!-- <td scope="row">{{oneCatehory?.id}}</td> -->
         <td class="text-center w-min-150px" scope="row">{{oneCatehory?.Id}}</td>
-        <td class="text-center w-min-150px" scope="row">{{oneCatehory?.nameUA}}</td>
-        <td class="text-center" scope="row">{{oneCatehory?.nameEN}}</td>
+        <td class="text-center w-min-150px" scope="row">{{oneCatehory?.nameUA}}
+          <hr>
+          <span (click)="editCategoryFun(oneCatehory.id)" class="cursorPointer span-color-hover"
+            ngbTooltip="Редагувати категорію" [openDelay]="300" [closeDelay]="150">
+            <span class="span-color-hover"> Редагувати</span><i class="far fa-edit span-color-hover"></i>
+          </span>
+          <hr>
+          <span (click)="deleteCategory(oneCatehory)" class="cursorPointer span-color-hover"
+            ngbTooltip="Видалити категорію" [openDelay]="300" [closeDelay]="150">
+            <span class="span-color-hover">Видалити</span>
+            <i class="far fa-trash-alt span-color-hover"></i>
+          </span>
+
+        </td>
+        <td class="text-center" scope="row">{{oneCatehory?.nameEN}} | {{oneCatehory?.productListInCategory | json }}
+        </td>
         <td scope="row">
           <div class="cont-image-in-category-list">
             <a [href]="oneCatehory?.imageUrl" target="_blanck">

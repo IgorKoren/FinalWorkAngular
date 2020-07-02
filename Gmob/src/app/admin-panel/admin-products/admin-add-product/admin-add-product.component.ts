@@ -89,7 +89,7 @@ export class AdminAddProductComponent implements OnInit {
       this.allCategoryesList = [];
       console.log(data);
 
-      
+
 
       data.forEach(item => {
         const a = item.payload.toJSON();
@@ -152,18 +152,7 @@ export class AdminAddProductComponent implements OnInit {
     // if (!this.addproductForm.valid) {
     //   return false;
     // }
-    // console.log(JSON.stringify(this.addproductForm.value);
-    // console.log(this.addproductForm.valid);
 
-    //  this.user.userName = this.addproductForm.get('status').value;
-
-    //  this.product.gender = this.addproductForm.get('gender').value;
-
-    //  this.product.isMarried = this.addproductForm.get('married').value;
-
-    //  this.product.isTCAccepted = this.addproductForm.get('tc').value;
-
-    //  this.userService.createUser(this.product);
 
     const newProduct: IProduct = new Product(
       this.addproductForm.get('idProduct').value,
@@ -181,6 +170,12 @@ export class AdminAddProductComponent implements OnInit {
       []
     );
     console.log(newProduct);
+
+    this.productService.addProduct(newProduct);
+
+    // this.productService.addProduct(newProduct).then(() => {
+    //   console.log('треба очистити форму');
+    // });
 
   }
 

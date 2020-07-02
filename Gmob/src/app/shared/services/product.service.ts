@@ -10,8 +10,8 @@ import { IProduct } from '../interfases/product/product.interface';
 })
 export class ProductService {
   private ulr: string;
-  categoriesRef: AngularFireList<any>
-  categoryRef: AngularFireObject<any>
+  productsRef: AngularFireList<any>
+  oneProductRef: AngularFireObject<any>
 
   constructor(
     private db: AngularFireDatabase,
@@ -20,29 +20,90 @@ export class ProductService {
   ) { }
 
 
-  // getProduct(): Observable<Array<IProduct>> {
-  //   return this.http.get<Array<IProduct>>(this.url);
-  // }
+ 
 
-  // addProduct(product: IProduct): Observable<Array<IProduct>> {
-  //   return this.http.post<Array<IProduct>>(this.url, product);
-  // }
+  // Create Product
+addProduct(newProduct: IProduct){
+  this.getProductList().push({
+    idProduct: newProduct.idProduct,
+    title: newProduct.title,
+    price: newProduct.price,
+    description: newProduct.description,
+    imageUrlList: newProduct.imageUrlList,
+    status: newProduct.status,
+    categoryIdlist: newProduct.categoryIdlist,
+    count: newProduct.count,
+    notLimited: newProduct.notLimited,
+    seo: newProduct.seo,
+    showTheProductOnTheStoreHomePage: newProduct.showTheProductOnTheStoreHomePage,
+    countInBascket: newProduct.countInBascket,
+    relatedProductsId: newProduct.relatedProductsId
+  })
+  .then(() => {
+    console.log(newProduct.imageUrlList);
+    console.log('Додавання товару виконано');
+    return newProduct;
+    // this.categoryService.updateProductListInCategory(newProduct.idProduct, newProduct.categoryIdlist)
+  })
+  .catch(error => {
+    console.log('Сталачя помилка при записі даних в BD');
+    return error;
+  })
 
-  // deleteProduct(product: IProduct): Observable<Array<IProduct>> {
-  //   return this.http.delete<Array<IProduct>>(`${this.url}/${product.id}`);
-  // }
-
-  // updateProduct(product: IProduct): Observable<Array<IProduct>> {
-  //   return this.http.put<Array<IProduct>>(`${this.url}/${product.id}`, product);
-  // }
-
-  // getOneProduct(id: number): Observable<IProduct> {
-  //   return this.http.get<IProduct>(`${this.url}/${id}`);
-  // }
 
 
+  // this.getProductList().push({
+  //   idProduct: newProduct.idProduct,
+  //   title: newProduct.title,
+  //   price: newProduct.price,
+  //   description: newProduct.description,
+  //   imageUrlList: newProduct.imageUrlList,
+  //   status: newProduct.status,
+  //   categoryIdlist: newProduct.categoryIdlist,
+  //   count: newProduct.count,
+  //   notLimited: newProduct.notLimited,
+  //   seo: newProduct.seo,
+  //   showTheProductOnTheStoreHomePage: newProduct.showTheProductOnTheStoreHomePage,
+  //   countInBascket: newProduct.countInBascket,
+  //   relatedProductsId: newProduct.relatedProductsId
+  // })
+  // .then(() => {
+  //   console.log(newProduct.imageUrlList);
+  //   console.log('Додавання товару виконано');
+  //   return newProduct;
+  //   // this.categoryService.updateProductListInCategory(newProduct.idProduct, newProduct.categoryIdlist)
+  // })
+  // .catch(error => {
+  //   console.log('Сталачя помилка при записі даних в BD');
+  //   return error;
+  // })
+  console.log(newProduct);
+  console.log(this.productsRef);
 
-  //Методи для Завантаження, заміни, видалення картинок з AngularFireStorage 
+  //додати newProduct в список категорій
+  // this.productsRef.push({
+
+
+    // Id: category.categoryId,
+    // nameUA: category.nameUA,
+    // nameEN: category.nameEN,
+    // description: category.description,
+    // imageUrl: category.imageUrl
+  // })
+}
+
+getProductList(): AngularFireList<any> {
+  this.productsRef = this.db.list('products');
+  return this.productsRef;
+}
+getProductListidProduct(idProduct: string): AngularFireList<any> {
+  this.productsRef = this.db.list('products' + '/' + idProduct);
+  return this.productsRef;
+}
+
+
+
+//Методи для Завантаження, заміни, видалення картинок з AngularFireStorage 
 
   deleteImageInDB(itemForDelete) {
     console.log(itemForDelete);
