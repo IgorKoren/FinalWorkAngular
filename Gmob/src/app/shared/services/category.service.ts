@@ -18,7 +18,7 @@ export class CategoryService {
   constructor(
     private db: AngularFireDatabase,
     private firestore: AngularFireStorage
-  ) {}
+  ) { }
 
   // Create Category
   addCategory(category: ICategory) {
@@ -39,67 +39,44 @@ export class CategoryService {
 
   // updateProductListInCategory(idProduct: string, categoryIdlist: string[]) {
 
-  //   console.log(categoryIdlist);
-  //   let cat: ICategory;
+  //                                               //   console.log(categoryIdlist);
+  //                                               //   let cat: ICategory;
 
   //   categoryIdlist.forEach((oneCategoryId, i) => {
   //     console.log('Виконується метод updateProductListInCategory');
   //     const categoriListID = this.db.object('category-list/' + oneCategoryId)
   //     const categoriList = this.db.object('category-list/' + oneCategoryId).snapshotChanges().subscribe(data => {
-
-
-
-
-
   //       console.log(data);
-  //       // cat = data as ICategory;
-  //       // cat = data;
-
-  //       // const d: [] = data.productListInCategory;
+  //       const cat = data as ICategory;
+  //                                                   // cat = data;
+  //                                                   // const d: [] = data.productListInCategory;
   //       console.log(cat);
-
 
   //       if (cat.productListInCategory) {
   //         console.log(cat.productListInCategory);
-
   //         cat.productListInCategory.push(idProduct)
-
-  //         // d.splice(data.productListInCategory.length, 0, idProduct)
-  //         // const finalArr:[] = (d, ...idProduct);
-  //         // console.log(finalArr);
-
-
-
-  //         //categoriListID.update(productListInCategory: cat.productListInCategory);
-
-
-
-  //         // categoriListID.update({
-  //         //   productListInCategory: cat.productListInCategory
-
-  //         // });
+  //                                                   //categoriListID.update(productListInCategory: cat.productListInCategory);
+  //                                                   // categoriListID.update({
+  //                                                   //   productListInCategory: cat.productListInCategory
+  //                                                   // });
   //         return null;
   //         console.log('productListInCategory - ОБНОВИВСЯ')
   //       } else {
   //         console.log('Список ІД продуктів в цій категорії є пустий!');
   //         const categor = this.db.object('category-list/' + oneCategoryId);
   //         categoriListID.update({
-  //           // Id: 'dl',
-  //           // nameUA: 'category.nameUA',
-  //           // nameEN: ' category.nameEN',
-  //           // description: 'category.description',
-  //           // imageUrl: ['category.imageUrl'],
+  //                                                   // Id: 'dl',
+  //                                                   // nameUA: 'category.nameUA',
+  //                                                   // nameEN: ' category.nameEN',
+  //                                                   // description: 'category.description',
+  //                                                   // imageUrl: ['category.imageUrl'],
   //           productListInCategory: cat.productListInCategory
   //         });
   //         return null;
-
-
   //       }
-
-
   //     });
-
-
+  //   })
+  // }
 
 
   //     // console.log(this.categoriList.toJson());
@@ -148,9 +125,9 @@ export class CategoryService {
   // }
 
   // Fetch Single Category Object
-  
-  
-getGategory(id: string) {
+
+
+  getGategory(id: string) {
     this.categoryRef = this.db.object('category-list/' + id);
     console.log(this.categoryRef);
     return this.categoryRef;
@@ -284,3 +261,4 @@ getGategory(id: string) {
   }
 
 }
+

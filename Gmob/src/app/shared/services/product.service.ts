@@ -37,7 +37,9 @@ addProduct(newProduct: IProduct){
     seo: newProduct.seo,
     showTheProductOnTheStoreHomePage: newProduct.showTheProductOnTheStoreHomePage,
     countInBascket: newProduct.countInBascket,
-    relatedProductsId: newProduct.relatedProductsId
+    relatedProductsId: newProduct.relatedProductsId,
+    dateCreation: newProduct.dateCreation,
+    keyObjectFromDB: newProduct.keyObjectFromDB
   })
   .then(() => {
     console.log(newProduct.imageUrlList);
@@ -46,7 +48,7 @@ addProduct(newProduct: IProduct){
     // this.categoryService.updateProductListInCategory(newProduct.idProduct, newProduct.categoryIdlist)
   })
   .catch(error => {
-    console.log('Сталачя помилка при записі даних в BD');
+    console.log('Сталаcя помилка при записі даних в BD');
     return error;
   })
 
@@ -99,6 +101,21 @@ getProductList(): AngularFireList<any> {
 getProductListidProduct(idProduct: string): AngularFireList<any> {
   this.productsRef = this.db.list('products' + '/' + idProduct);
   return this.productsRef;
+}
+ // Update Product Object
+ updateProduct(student: IProduct) {
+  this.oneProductRef.update({
+    // firstName: student.firstName,
+    // lastName: student.lastName,
+    // email: student.email,
+    // mobileNumber: student.mobileNumber
+  })
+}  
+
+// Delete Product Object
+deleteProduct(idProduct: string) {
+  this.oneProductRef = this.db.object('products/' + idProduct);
+  this.oneProductRef.remove();
 }
 
 

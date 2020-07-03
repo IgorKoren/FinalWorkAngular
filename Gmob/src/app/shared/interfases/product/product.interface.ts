@@ -15,9 +15,19 @@ export interface IProduct {
         metaDescription?: string;
         keyWords?: string;
     };
+   
     showTheProductOnTheStoreHomePage?: boolean;
     countInBascket?: number;
     relatedProductsId?: string[];
+    dateCreation?: {
+        dateYear?: number;
+        dateMonth?: number;
+        dateDay?: number;
+        dateHours?: number;
+        dateMinutes?: number;
+    };
+    keyObjectFromDB?: string;
+
   
 
 }

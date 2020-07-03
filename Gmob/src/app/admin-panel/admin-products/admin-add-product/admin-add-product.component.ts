@@ -58,7 +58,7 @@ export class AdminAddProductComponent implements OnInit {
     private formBuilder: FormBuilder,
     private afStorage: AngularFireStorage,
     public сategoryService: CategoryService,
-    private productService: ProductService,
+    private productService: ProductService
 
     // private router: Router, // Inject student CRUD services in constructor.
     // private location: Location,         // Location service to go back to previous component
@@ -152,8 +152,6 @@ export class AdminAddProductComponent implements OnInit {
     // if (!this.addproductForm.valid) {
     //   return false;
     // }
-
-
     const newProduct: IProduct = new Product(
       this.addproductForm.get('idProduct').value,
       this.addproductForm.get('title').value,
@@ -167,9 +165,16 @@ export class AdminAddProductComponent implements OnInit {
       this.addproductForm.get('seo').value,
       false,
       0,
-      []
+      [],
+      {
+        dateYear: new Date().getFullYear(),
+        dateMonth: new Date().getMonth(),
+        dateDay: new Date().getUTCDate(),
+        dateHours: new Date().getHours(),
+        dateMinutes: new Date().getMinutes()
+      },
+      'keyObjectFromDB'
     );
-    console.log(newProduct);
 
     this.productService.addProduct(newProduct);
 

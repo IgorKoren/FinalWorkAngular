@@ -16,8 +16,17 @@ export class Product implements IProduct {
             // metaDescription = '';
             // keyWords = ''
         },
+       
         public showTheProductOnTheStoreHomePage: boolean = false,
         public countInBascket: number = 0,
-        public relatedProductsId: string[] = []
+        public relatedProductsId: string[] = [],
+        public dateCreation = {
+            dateYear:  new Date().getFullYear(),
+            dateMonth: new Date().getMonth(),
+            dateDay: new Date().getUTCDate(),
+            dateHours: new Date().getHours(),
+            dateMinutes: new Date().getMinutes()
+        },
+        public keyObjectFromDB: string = ''
     ){}
 }
