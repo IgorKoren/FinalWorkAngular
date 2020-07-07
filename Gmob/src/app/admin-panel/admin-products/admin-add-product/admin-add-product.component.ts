@@ -19,6 +19,7 @@ import { IProduct } from 'src/app/shared/interfases/product/product.interface';
   templateUrl: './admin-add-product.component.html',
   styleUrls: ['./admin-add-product.component.scss']
 })
+
 export class AdminAddProductComponent implements OnInit {
   addproductForm: FormGroup;
   isSubmitted: boolean;
@@ -31,6 +32,7 @@ export class AdminAddProductComponent implements OnInit {
   // category: ICategory[];
   categoryIdlistTemp = [];
   allCategoryesList: ICategory[] = [];
+
   //   {
   //   categoryId: '11111',
   //   nameUA: 'Категорія № 1',
@@ -46,12 +48,8 @@ export class AdminAddProductComponent implements OnInit {
   //   imageUrl: '3333333333',
   //   description: '3333333',
   //   parentCategories: '333333333'
-
-
   // }
-
   // listWithCategoriesID = ['5555555'];
-
   // product: IProduct = new Product();
 
   constructor(
@@ -88,9 +86,6 @@ export class AdminAddProductComponent implements OnInit {
     s.snapshotChanges().subscribe(data => { // Using snapshotChanges() method to retrieve list of data along with metadata($key)
       this.allCategoryesList = [];
       console.log(data);
-
-
-
       data.forEach(item => {
         const a = item.payload.toJSON();
         console.log(a);
@@ -128,7 +123,7 @@ export class AdminAddProductComponent implements OnInit {
     return this.addproductForm.get('count');
   }
   get categoryIdlist() {
-    return this.addproductForm.get('categoryIdlist') as FormArray;;
+    return this.addproductForm.get('categoryIdlist') as FormArray;
   }
 
   get seo() {

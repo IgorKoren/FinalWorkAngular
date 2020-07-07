@@ -50,7 +50,8 @@ import { HtmlComponentsComponent } from './html-components/html-components.compo
 
 import { NgbdTooltipDelay } from './components/tooltip/ngbd-tooltip-delay/ngbd-tooltip-delay.component';
 import { QuillModule } from 'ngx-quill';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminProductsListComponent } from './admin-panel/admin-products/admin-products-list/admin-products-list.component'
 
 
 
@@ -88,7 +89,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     CategoryListComponent,
     HtmlComponentsComponent,
     
-    NgbdTooltipDelay
+    NgbdTooltipDelay,
+    
+    AdminProductsListComponent
 
   ],
   imports: [

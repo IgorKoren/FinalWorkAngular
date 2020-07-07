@@ -20,6 +20,7 @@ import { AdminEditProductComponent } from './admin-panel/admin-products/admin-ed
 import { AdminAddProductComponent } from './admin-panel/admin-products/admin-add-product/admin-add-product.component';
 import { AddCategoryComponent } from './admin-panel/admin-category/add-category/add-category.component';
 import { EditCategoryComponent } from './admin-panel/admin-category/edit-category/edit-category.component';
+import { AdminProductsListComponent } from './admin-panel/admin-products/admin-products-list/admin-products-list.component';
 
 
 
@@ -45,7 +46,7 @@ const routes: Routes = [
     path: 'admin-panel', component: AdminPanelComponent,
     //  canActivate: [AuthGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'products' },
+      { path: '', pathMatch: 'full', redirectTo: 'category' },
       { path: 'category', component: AdminCategoryComponent, children:
       [
         { path: 'addCategory', component: AddCategoryComponent },
@@ -53,6 +54,8 @@ const routes: Routes = [
         { path: 'editCategory/:id', component: EditCategoryComponent }
       ] },
       { path: 'products', component: AdminProductsComponent, children: [
+        { path: '', pathMatch: 'full', redirectTo: 'products-list' },
+        { path: 'products-list', component: AdminProductsListComponent },
         { path: 'edit-product', component: AdminEditProductComponent },
         { path: 'add-produc', component: AdminAddProductComponent }
       ] },

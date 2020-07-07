@@ -1,1 +1,428 @@
-<p>admin-edit-product works!</p>
+<br><br>
+<h2>Статус Форми - {{addproductForm.status | json}}</h2>
+
+{{addproductForm.value | json}}
+<hr>
+{{addproductForm.get('categoryIdlist').value}}
+<br>
+Довжина масива - {{addproductForm.get('categoryIdlist')?.length}}
+
+
+
+<div class="container-fluid">
+  <form [formGroup]="addproductForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Додати товар:</h2>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group text-right">
+          <button type="submit" class="btn btn-success">Зберегти зміни</button>
+          <button type="button" class="btn btn-secondary gap-right" (click)="resetForm()">Очистити форму</button>
+          <!-- <button *ngIf="isEdit" type="submit" class="btn btn-success" [disabled]="!categoryForm.valid">Зберегти зміни</button> -->
+        </div>
+      </div>
+    </div>
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Основне:</a>
+        <ng-template ngbNavContent>
+          <div class="form-group">
+            <p class="titleInput">Назва товару:</p>
+            <input type="text" #titlLink formControlName="title" [class.is-invalid]="title.invalid && title.touched"
+              class="form-control" trim="blur">
+            <!-- <small class="text-danger" [class.d-none]="addproductForm.controls['title'].valid || addproductForm.controls['title'].untouched">title is required</small> -->
+            <div *ngIf="title.invalid && title.touched">
+              <small class="text-danger" *ngIf="title.errors?.required">Поле має бути
+                заповнене!</small>
+              <small class="text-danger" *ngIf="title.errors?.maxlength">Максимальна кількість
+                символів не має перевищувати - 500 !</small>
+            </div>
+          </div>
+
+
+
+          <div class="form-row ">
+            <div class="form-group col-md-4">
+              <p class="titleInput">Унікальний код товару (артикул):</p>
+              <input type="text" formControlName="idProduct" class="form-control"
+                [class.is-invalid]="idProduct.invalid && idProduct.touched" trim>
+              <div *ngIf="idProduct.invalid && idProduct.touched">
+                <!-- <small class="text-danger" *ngIf="idProduct.value?.trim() === '' ">Поле має бути без пробілів. </small> -->
+                <small class="text-danger" *ngIf="idProduct.errors?.required">Поле має бути
+                  заповнене!</small>
+                <small class="text-danger" *ngIf="idProduct.errors?.maxlength">Максимальна
+                  кількість символів не має перевищувати - 100 !</small>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <p class="titleInput">Ціна:</p>
+              <input type="number" [class.is-invalid]=" price.invalid &&  price.touched" formControlName="price"
+                class="form-control" maxlength="10" trim>
+              <div *ngIf=" price.invalid &&  price.touched">
+                <small class="text-danger" *ngIf=" price.errors?.required">Поле має бути
+                  заповнене!</small>
+                <small class="text-danger" *ngIf="price.errors?.maxlength">Максимальна кількість
+                  символів не має перевищувати - 10 !</small>
+                <small class="text-danger" *ngIf="price.errors?.pattern">2222222222</small>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4 mt-2 mb-2 ">
+
+              <p class="titleInput2">Кількість:</p>
+              <input type="number" [class.is-invalid]=" count.invalid &&  count.touched" formControlName="count"
+                class="form-control" maxlength="10" trim>
+              <small>Якщо кількість дорівнює "0" то товар буде в необмеженій кількоті</small>
+              <div *ngIf=" count.invalid &&  count.touched">
+                <small class="text-danger" *ngIf=" count.errors?.required">Поле має бути
+                  заповнене коректно!</small>
+                <!-- <small class="text-danger" *ngIf="count.errors?.maxlength">Максимальна кількість
+              символів не має перевищувати - 10 !</small>
+            <small class="text-danger" *ngIf="count.errors?.pattern">2222222222</small> -->
+              </div>
+            </div>
+
+
+            <div class="form-row col-md-12 mt-2 mb-2 ">
+              <p class="titleInput2 mr-3">Статус товару:</p>
+              <div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" formControlName="status" id="statusShow" value="true" name="status"
+                    class="custom-control-input">
+                  <label class="custom-control-label alBaseLine" for="statusShow">Показувати в магазині</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" formControlName="status" id="statusHide" value="false" name="status"
+                    class="custom-control-input">
+                  <label class="custom-control-label" for="statusHide">Приховати</label>
+                </div>
+              </div>
+
+
+
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+            <div class="">
+              <!-- <p class="titleInput">Фото товару:</p> -->
+              <div class="bor ">
+                <div class="addFotobtn-container">
+
+                  <div class="imageCont cursorPointer">
+                    <div class="img-placeholder" (click)="linkToImageUrl.click()">
+                      <!-- <p class="bigPlus ">+</p> -->
+                      <p class="mb-2 titleInput">Додайте фото...</p>
+                    </div>
+                    <div class="progress mt-2 mb-2" (click)="linkToImageUrl.click()">
+
+
+                      <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                        [style.width]="(uploadProgress | async) + '%'" aria-valuemin="0" aria-valuemax="100">
+                        <small *ngIf="uploadProgress | async"> {{uploadProgress | async |  number: '1.0'}} %</small>
+                      </div>
+                    </div>
+                    <div class="custom-file cursorPointer">
+                      <input #linkToImageUrl (change)="uploadFile($event)" accept="image/*" type="file"
+                        class="custom-file-input cursorPointer" id="customFile" data-browse="Завантажити">
+                      <label class="custom-file-label cursorPointer" for="customFile">Вибрати картинку</label>
+                    </div>
+
+                    <br>
+                    <!-- <small>Замінити</small> -->
+
+                    <!-- <label>URL картинки:</label>
+                <h6>{{imageUrlListTemp | json}}</h6> -->
+
+                    <input type="text" formControlName="imageUrlList" hidden class="form-control btn-sm" required>
+
+                    <!-- <button type="button" (click)="removeImageBtn(productImage)" [disabled]="!productImage"
+                  class="btn btn-info btn-sm mt-2 mb-1">Видалити картинку </button> -->
+                    <!-- Showing errors using getter method -->
+                    <!-- <p *ngIf="description.touched && description.invalid" class="error"><sup>*</sup>Please provide contact
+                            number</p> -->
+                    <!-- <p *ngIf="mobileNumber.errors?.pattern" class="error"><sup>*</sup>Use numbers only
+                            number</p> -->
+
+                  </div>
+                </div>
+
+
+                <div class="imgeWrap ">
+                  <small class="mt-2">*порядок картинок можна змінювати, переміщуючи їх мишкою </small>
+
+                  <div class="example-list" cdkDropListOrientation="horizontal" cdkDropList
+                    (cdkDropListDropped)="drop($event)">
+
+                    <div class="itemFotoConteiner example-box " cdkDrag
+                      *ngFor="let item of imageUrlListTemp; let i = index">
+                      <div>
+                        <div class="example-custom-placeholder" *cdkDragPlaceholder>
+                          <!-- <img  [src]="item"> -->
+                          <img *cdkDragPreview [src]="item" [alt]="item" matchSize="true">
+                        </div>
+
+                        <div class="itemFoto ">
+                          <!-- <a [href]="item" target="_blanck"> -->
+                          <!-- <img [style.backgroundImage]="item"> -->
+                          <!-- <img [style.backgroundImage]="'url(' + item + ')'"> -->
+
+                          <img [src]="item">
+
+
+                          <!-- </a> -->
+                        </div>
+
+                      </div>
+
+
+
+                      <!-- <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                    </path>
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                  </svg> -->
+
+                      <div class="itemFotoConteinerButtons">
+                        <button type="button" class="btn btn-danger btn-sm mb-1 " (click)="removeImage(item, i)">
+                          Видалити</button>
+                      </div>
+
+                      <!-- //Кнопка Замінити картинку НЕ працює -->
+                      <!-- <div class="custom-file cursorPointer mb-2">
+                      <input (click)="changeImage($event, item, i)" accept="image/*" type="file"
+                        class="custom-file-input cursorPointer" id="customFile" data-browse="Завантажити">
+                      <label class="custom-file-label cursorPointer" for="customFile">Вибрати картинку</label>
+                    </div> -->
+
+
+
+
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="form-group">
+            <p class="titleInput">Опис товару:</p>
+            <quill-editor formControlName="description" [styles]="{height: '250px'}" [trimOnValidation]="true"
+              placeholder='Введіть текст...'>
+              <div quill-editor-toolbar>
+                <span class="ql-formats">
+                  <select class="ql-font">
+                    <option selected></option>
+                    <option value="serif"></option>
+                    <option value="monospace"></option>
+                  </select>
+                  <select class="ql-size">
+                    <option value="small"></option>
+                    <option selected></option>
+                    <option value="large"></option>
+                    <option value="huge"></option>
+                  </select>
+                </span>
+                <span class="ql-formats"><span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0"
+                      role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18">
+                        <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon>
+                        <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon>
+                      </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1"
+                      id="ql-picker-options-5"><span tabindex="0" role="button" class="ql-picker-item"
+                        data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item"
+                        data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"
+                        data-value="3"></span><span tabindex="0" role="button" class="ql-picker-item"
+                        data-value="4"></span><span tabindex="0" role="button" class="ql-picker-item"
+                        data-value="5"></span><span tabindex="0" role="button" class="ql-picker-item"
+                        data-value="6"></span><span tabindex="0" role="button"
+                        class="ql-picker-item ql-selected"></span></span></span><select class="ql-header"
+                    style="display: none;">
+                    <option value="1"></option>
+                    <option value="2"></option>
+                    <option value="3"></option>
+                    <option value="4"></option>
+                    <option value="5"></option>
+                    <option value="6"></option>
+                    <option selected="selected"></option>
+                  </select></span>
+                <span class="ql-formats">
+                  <select class="ql-align" [title]="'Aligment'">
+                    <option selected></option>
+                    <option value="center"></option>
+                    <option value="right"></option>
+                    <option value="justify"></option>
+                  </select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                  <button class="ql-underline"></button>
+                  <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats"><button type="button" class="ql-blockquote"><svg viewBox="0 0 18 18">
+                      <rect class="ql-fill ql-stroke" height="3" width="3" x="4" y="5"></rect>
+                      <rect class="ql-fill ql-stroke" height="3" width="3" x="11" y="5"></rect>
+                      <path class="ql-even ql-fill ql-stroke" d="M7,8c0,4.031-3,5-3,5"></path>
+                      <path class="ql-even ql-fill ql-stroke" d="M14,8c0,4.031-3,5-3,5"></path>
+                    </svg></button><button type="button" class="ql-code-block"><svg viewBox="0 0 18 18">
+                      <polyline class="ql-even ql-stroke" points="5 7 3 9 5 11"></polyline>
+                      <polyline class="ql-even ql-stroke" points="13 7 15 9 13 11"></polyline>
+                      <line class="ql-stroke" x1="10" x2="8" y1="5" y2="13"></line>
+                    </svg></button></span>
+                <span class="ql-formats"><button type="button" class="ql-script" value="sub"><svg viewBox="0 0 18 18">
+                      <path class="ql-fill"
+                        d="M15.5,15H13.861a3.858,3.858,0,0,0,1.914-2.975,1.8,1.8,0,0,0-1.6-1.751A1.921,1.921,0,0,0,12.021,11.7a0.50013,0.50013,0,1,0,.957.291h0a0.914,0.914,0,0,1,1.053-.725,0.81,0.81,0,0,1,.744.762c0,1.076-1.16971,1.86982-1.93971,2.43082A1.45639,1.45639,0,0,0,12,15.5a0.5,0.5,0,0,0,.5.5h3A0.5,0.5,0,0,0,15.5,15Z">
+                      </path>
+                      <path class="ql-fill"
+                        d="M9.65,5.241a1,1,0,0,0-1.409.108L6,7.964,3.759,5.349A1,1,0,0,0,2.192,6.59178Q2.21541,6.6213,2.241,6.649L4.684,9.5,2.241,12.35A1,1,0,0,0,3.71,13.70722q0.02557-.02768.049-0.05722L6,11.036,8.241,13.65a1,1,0,1,0,1.567-1.24277Q9.78459,12.3777,9.759,12.35L7.316,9.5,9.759,6.651A1,1,0,0,0,9.65,5.241Z">
+                      </path>
+                    </svg></button><button type="button" class="ql-script" value="super"><svg viewBox="0 0 18 18">
+                      <path class="ql-fill"
+                        d="M15.5,7H13.861a4.015,4.015,0,0,0,1.914-2.975,1.8,1.8,0,0,0-1.6-1.751A1.922,1.922,0,0,0,12.021,3.7a0.5,0.5,0,1,0,.957.291,0.917,0.917,0,0,1,1.053-.725,0.81,0.81,0,0,1,.744.762c0,1.077-1.164,1.925-1.934,2.486A1.423,1.423,0,0,0,12,7.5a0.5,0.5,0,0,0,.5.5h3A0.5,0.5,0,0,0,15.5,7Z">
+                      </path>
+                      <path class="ql-fill"
+                        d="M9.651,5.241a1,1,0,0,0-1.41.108L6,7.964,3.759,5.349a1,1,0,1,0-1.519,1.3L4.683,9.5,2.241,12.35a1,1,0,1,0,1.519,1.3L6,11.036,8.241,13.65a1,1,0,0,0,1.519-1.3L7.317,9.5,9.759,6.651A1,1,0,0,0,9.651,5.241Z">
+                      </path>
+                    </svg></button></span>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <!-- <select class="ql-background"></select> -->
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-list" value="ordered"></button>
+                  <button class="ql-list" value="bullet"></button>
+
+                </span>
+                <span class="ql-formats"><button type="button" class="ql-indent" value="-1"><svg viewBox="0 0 18 18">
+                      <line class="ql-stroke" x1="3" x2="15" y1="14" y2="14"></line>
+                      <line class="ql-stroke" x1="3" x2="15" y1="4" y2="4"></line>
+                      <line class="ql-stroke" x1="9" x2="15" y1="9" y2="9"></line>
+                      <polyline class="ql-stroke" points="5 7 5 11 3 9 5 7"></polyline>
+                    </svg></button><button type="button" class="ql-indent" value="+1"><svg viewBox="0 0 18 18">
+                      <line class="ql-stroke" x1="3" x2="15" y1="14" y2="14"></line>
+                      <line class="ql-stroke" x1="3" x2="15" y1="4" y2="4"></line>
+                      <line class="ql-stroke" x1="9" x2="15" y1="9" y2="9"></line>
+                      <polyline class="ql-fill ql-stroke" points="3 7 3 11 5 9 3 7"></polyline>
+                    </svg></button></span>
+                <span class="ql-formats">
+                  <button class="ql-link"></button>
+                  <!-- <button class="ql-image"></button> -->
+                </span>
+                <span class="ql-formats"><button type="button" class="ql-clean"><svg class="" viewBox="0 0 18 18">
+                      <line class="ql-stroke" x1="5" x2="13" y1="3" y2="3"></line>
+                      <line class="ql-stroke" x1="6" x2="9.35" y1="12" y2="3"></line>
+                      <line class="ql-stroke" x1="11" x2="15" y1="11" y2="15"></line>
+                      <line class="ql-stroke" x1="15" x2="11" y1="11" y2="15"></line>
+                      <rect class="ql-fill" height="1" rx="0.5" ry="0.5" width="7" x="2" y="14"></rect>
+                    </svg></button></span>
+
+              </div>
+            </quill-editor>
+            <div
+              *ngIf="addproductForm.controls['description'].invalid && addproductForm.controls['description'].touched">
+              <small class="text-danger" *ngIf=" addproductForm.controls['description'].errors?.required">Поле має бути
+                заповнене!</small>
+              <small class="text-danger" *ngIf=" addproductForm.controls['description'].errors?.maxlength">Максимальна
+                кількість символів не має перевищувати - 5000 !</small>
+            </div>
+          </div>
+
+
+          <div class="form-group text-right">
+            <button type="submit" class="btn btn-success">Зберегти зміни</button>
+            <button type="button" class="btn btn-secondary gap-right" (click)="resetForm()">Очистити форму</button>
+            <!-- <button *ngIf="isEdit" type="submit" class="btn btn-success" [disabled]="!categoryForm.valid">Зберегти зміни</button> -->
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Вибір категорії
+          <span *ngIf="categoryIdlistTemp.length === 0">
+            <small class="text-danger" *ngIf="(categoryIdlist.invalid || categoryIdlist.touched)"> *виберіть
+              категорію</small>
+          </span>
+
+        </a>
+        <ng-template ngbNavContent>
+          <div class="bor">
+            <p class="titleInput">Виберіть категорії дя товару: <span *ngIf="categoryIdlistTemp.length === 0">
+                <small class="text-danger" *ngIf="categoryIdlist.errors?.required"> * Хоча б одна категорія для товару
+                  має
+                  бути вибрана</small>
+              </span></p>
+            <div>
+              <div class="form-group" *ngFor="let oneCategory of allCategoryesList; let i=index">
+                <div class="custom-control custom-checkbox hover-ef">
+                  <input type="checkbox" [checked]="(categoryIdlist.value.includes(oneCategory.catecategoryIDDB, 0))"
+                    class="custom-control-input cursorPointer" [id]="oneCategory.nameEN"
+                    [value]="oneCategory.catecategoryIDDB"
+                    (click)="onCheckCategory($event, oneCategory.catecategoryIDDB, i)">
+                  <label class="custom-control-label cursorPointer" [for]="oneCategory.nameEN">{{oneCategory.nameUA}} |
+                    {{oneCategory.catecategoryIDDB}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Характеристики</a>
+        <ng-template ngbNavContent>
+
+
+
+
+
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem>
+        <a ngbNavLink>SEO</a>
+        <ng-template ngbNavContent>
+          <div formGroupName="seo">
+            <div class="bor">
+              <h3>Інформація для SEO:</h3>
+
+              <div class="form-group">
+                <label>titleSeo</label>
+                <input type="text" formControlName="titleSeo" class="form-control" trim="blur">
+              </div>
+
+              <div class="form-group">
+                <label>metaDescription</label>
+                <input type="text" formControlName="metaDescription" class="form-control" trim="blur">
+              </div>
+
+              <div class="form-group">
+                <label>keyWords</label>
+                <input type="text" formControlName="keyWords" class="form-control" trim="blur">
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+
+  </form>
+
+  <hr>
+
+
+
+
+</div>

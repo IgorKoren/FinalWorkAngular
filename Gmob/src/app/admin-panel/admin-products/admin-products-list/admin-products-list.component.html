@@ -1,0 +1,128 @@
+<div class="product-list">
+    <div class="container-fluid">
+      <div class="col-12 mt-3">
+      
+        <h2>Список всіх товарів</h2>
+      </div>
+      <div class="row">
+        <div class="col-12 ">
+          <form>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col col-form-label">Пошук товару:</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="inputEmail3">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3 border">
+          <div class="filter-container">
+            <div class="category-container border">
+              <h3>Категорії</h3>
+              <div class="list-width-all-categoryes border">
+
+                <div class="form-group" *ngFor="let oneCategory of allCategoryesList; let i=index">
+                    <div class="custom-control custom-checkbox hover-ef">
+                        <!-- [checked]="(categoryIdlist.value.includes(oneCategory.catecategoryIDDB, 0))" -->
+                      <input type="checkbox"  
+                      [checked]=true
+                       class="custom-control-input cursorPointer" [id]="oneCategory.nameEN"
+                        [value]="oneCategory.catecategoryIDDB" 
+                        (click)="onCheckCategory($event, oneCategory.catecategoryIDDB, i)"
+                        >
+                      <label class="custom-control-label cursorPointer" [for]="oneCategory.nameEN">
+                        <small> {{oneCategory.nameUA}} |
+                       {{oneCategory.catecategoryIDDB}}</small></label>
+                    </div>
+                  </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-9">
+          <div class="all-roducts-container">
+  
+            <div *ngFor="let oneProduct of allProducts; let i = index" class="oneProduct-container border shadow ">
+              <div class="numbItem">
+                <span>
+                  {{i+1}}
+                </span>
+              </div>
+  
+              <div class="imageProduct">
+                <a [href]=trimimageUrlList(oneProduct,i) target="_blank" ngbTooltip="Переглянути фото в новій вкладці"
+                  [openDelay]="300" [closeDelay]="150">
+                  <img [src]=trimimageUrlList(oneProduct,i)>
+                </a>
+              </div>
+  
+  
+  
+              <div class="ptoduct-text-container">
+                <div class="title">
+                  <h3>{{oneProduct?.title}}</h3>
+                  <p>Атрикул: {{oneProduct?.idProduct}}
+                    {{oneProduct?.keyObjectFromDB}}
+                  </p>
+  
+                </div>
+                <div class="status">
+                  <span *ngIf="oneProduct?.status">Активний</span>
+                  <span *ngIf="!oneProduct?.status">Не активний</span>
+                  <span>В наявності:
+                    <span *ngIf="(oneProduct?.count === 0)">
+                      необмежена кількість
+                    </span>
+                    <span *ngIf="(oneProduct?.count > 0)">
+                      {{oneProduct?.count}}
+                    </span>
+                  </span>
+                </div>
+                <div class="showInHomePage">
+                  <small>Показувати на домашній сторінці:
+                    <span *ngIf="oneProduct?.showTheProductOnTheStoreHomePage">ТАК</span>
+                    <span *ngIf="!oneProduct?.showTheProductOnTheStoreHomePage">НІ</span>
+                  </small>
+                </div>
+              </div>
+  
+              <div class="price">
+                <p>{{oneProduct?.price}} грн.</p>
+  
+                <small>
+                  Дата створення:
+                  {{oneProduct?.dateCreation.dateDay}}/{{oneProduct?.dateCreation.dateMonth}}/{{oneProduct?.dateCreation.dateYear}}
+                </small>
+              </div>
+  
+              <div class="buttonsForEdit">
+                <span (click)="editProduct(oneProduct)" [routerLink]="[ '../edit-product' ]"
+                  class="cursorPointer span-color-hover" ngbTooltip="Редагувати категорію" [openDelay]="300"
+                  [closeDelay]="150">
+                  <span class="span-color-hover"> Редагувати</span><i class="far fa-edit span-color-hover"></i>
+                </span>
+  
+                <span (click)="cloneProduct(oneProduct)" [routerLink]="[ '../edit-product' ]"
+                  class="cursorPointer span-color-hover" ngbTooltip="Зробити копію товару" [openDelay]="300"
+                  [closeDelay]="150">
+                  Клонувати товар </span>
+  
+                <span (click)="deleteProduct(oneProduct)" class="cursorPointer span-color-hover"
+                  ngbTooltip="Видалити категорію" [openDelay]="300" [closeDelay]="150">
+                  <span class="span-color-hover">Видалити</span>
+                  <i class="far fa-trash-alt span-color-hover"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+    </div>
+  </div>

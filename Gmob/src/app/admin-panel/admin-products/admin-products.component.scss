@@ -1,16 +1,18 @@
 .active {
   //    color: black;
-  font-weight: 700;
-  //   text-indent: 1.5rem;
-  background-color: lightseagreen
+  // font-weight: 700;
+  
+    // text-indent: 1.5rem;
+  background-color: #2b8ae2 !important
 }
 
 .oneProduct-container {
-
+  max-width: 1000px;
   width: 100%;
+  min-height: 200px;
 
   margin: 5px 8px 15px 8px;
-  padding: 8px;
+  padding: 18px;
   //   background-color: lightgray;
   border-radius: 5px;
 

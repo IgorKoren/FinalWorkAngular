@@ -15,69 +15,68 @@ import { Product } from 'src/app/shared/models/product.model';
 })
 
 export class AdminProductsComponent implements OnInit {
+  ngOnInit(): void {}
+  // // items: Observable<any[]>;
+  // // items;
+  // allProducts: IProduct[];
 
-  // items: Observable<any[]>;
-  // items;
-  allProducts: IProduct[]
+  // constructor(
+  //   private formBuilder: FormBuilder,
+  //   private afStorage: AngularFireStorage,
+  //   public сategoryService: CategoryService,
+  //   private productService: ProductService,
+  //   private db: AngularFireDatabase
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private afStorage: AngularFireStorage,
-    public сategoryService: CategoryService,
-    private productService: ProductService,
-    private db: AngularFireDatabase
+  // ) { }
 
-  ) { }
+  // ngOnInit(): void {
+  //   let p = this.productService.getProductList();
+  //   // console.log(this.productService.getProductList())
+  //   p.snapshotChanges().subscribe(data => {
+  //     console.log(data)
+  //     this.allProducts = []
+  //     data.forEach(item => {
+  //       let a = item.payload.toJSON()
+  //       a['keyObjectFromDB'] = item.key
+  //       this.allProducts.push(a as IProduct)
+  //       console.log(this.allProducts);
+  //     })
+  //   })
 
-  ngOnInit(): void {
-    let p = this.productService.getProductList();
-    // console.log(this.productService.getProductList())
-    p.snapshotChanges().subscribe(data => {
-      this.allProducts = []
-      data.forEach(item => {
-        let a = item.payload.toJSON()
-        a['keyObjectFromDB'] = item.key
-        this.allProducts.push(a as IProduct)
-        console.log(this.allProducts);
-      })
-    })
-
-  }
-  trimimageUrlList(oneProduct: IProduct, i: number) {
-
-   
-    // let trImag;
-    // console.log(trImag);
-    // if ( oneProduct.imageUrlList as Array<string> === undefined || null ) {
-    //   console.log('Немає фото..');
-    //   // trImag = 'Немає фото..'
-    //   return null;
-    // } else {
-    //   trImag = oneProduct.imageUrlList as Array<string>;
-    //   console.log(trImag);
-      
-    //   trImag = oneProduct.imageUrlList[0];
-    //   console.log(trImag);
-    //   return trImag;
-    // }
-    const rr = this.allProducts[i].imageUrlList;
-    if( rr ){
-      return this.allProducts[i].imageUrlList[0]
-    }
+  // }
+  // editProduct(oneProduct: IProduct){
+  //   console.log('Редагувати товар');
+  //   console.log(oneProduct);
+  //   this.productService.productForEdit = oneProduct;
+  //   // console.log(this.productService.productForEdit);
     
-  
-  }
+  // }
+  // trimimageUrlList(oneProduct: IProduct, i: number) {
+  //   const rr = this.allProducts[i].imageUrlList;
+  //   if( rr ){
+  //     return this.allProducts[i].imageUrlList[0]
+  //   }
+  // }
 
-  deleteCategory(product) {
-    console.log(product);
-    // this.сategoryService.deleteCategory(category.id);
-    if (window.confirm(`Видалити цей товар: ${product.title}`)) 
-    { 
-      this.productService.deleteProduct(product.keyObjectFromDB); 
-      console.log('Товар видалений');
-      
-      // this.toastr.success(student.firstName + ' successfully deleted!');
-    }
-  }
+  // deleteProduct(product) {
+  //   console.log(product);
+  //   // this.сategoryService.deleteProduct(category.id);
+  //   if (window.confirm(`Видалити цей товар: ${product.title}`)) 
+  //   { 
+  //     this.productService.deleteProduct(product); 
+  //     console.log('Товар видалений');
+  //     // this.toastr.success(student.firstName + ' successfully deleted!');
+  //   }
+  // }
+
+  // cloneProduct(oneProduct: IProduct, clene = true){
+  //   console.log('Редагувати товар');
+  //   console.log(oneProduct);
+    
+  //   this.productService.productForEditClone = oneProduct;
+  //   this.productService.clone = true;
+  //   // console.log(this.productService.productForEdit);
+    
+  // }
 
 }
