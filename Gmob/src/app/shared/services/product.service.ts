@@ -55,10 +55,14 @@ export class ProductService {
       .then(() => {
         console.log(newProduct.imageUrlList);
         console.log('Додавання товару виконано');
+
+        this.categoryService.updateProductListInCategory(newProduct.idProduct, newProduct.categoryIdlist, false);
+
         this.router.navigate(['/admin-panel/products']);
+
+
         return newProduct;
-        
-        // this.categoryService.updateProductListInCategory(newProduct.idProduct, newProduct.categoryIdlist)
+
       })
       .catch((error) => {
         console.log('Сталаcя помилка при записі даних в BD');
@@ -114,6 +118,8 @@ export class ProductService {
         this.productForEdit = null;
         console.log('Обновлення товару виконано успішно');
 
+
+
         // this.router.navigate(['../products'], { relativeTo: this.route });
         this.router.navigate(['/admin-panel/products']);
 
@@ -130,35 +136,45 @@ export class ProductService {
   // Delete Product Object
   deleteProduct(delProd: IProduct) {
     this.oneProductRef = this.db.object('products/' + delProd.keyObjectFromDB);
+    
+    this.categoryService.updateProductListInCategory(delProd.idProduct, delProd.categoryIdlist, true);
+
+
+    console.log(delProd.categoryIdlist);
+
+
     this.oneProductRef.remove()
       .then(() => {
-        if(delProd.imageUrlList){
+        if (delProd.imageUrlList) {
           const delImUrl = Object.values(delProd.imageUrlList)
           // console.log(delImUrl);
-          for (let i = 0; i < delImUrl.length; i++){
+          for (let i = 0; i < delImUrl.length; i++) {
             this.deleteImageInDB(delImUrl[i])
           }
         }
-       
 
 
 
-  });
-}
 
-//Методи для Завантаження, заміни, видалення картинок з AngularFireStorage 
-deleteImageInDB(itemForDelete) {
-  console.log(itemForDelete);
-  // this._storage.storage.refFromURL(post.coverPic).delete()
-  return this.firestore.storage.refFromURL(itemForDelete).delete()
-    .then(() => {
-      console.log('Катринка успішно видалена');
-      return itemForDelete;
-    })
-    .catch((error) => {
-      console.log('ПРОБЛЕМА ' + error.code);
-      console.log('ПРОБЛЕМА ' + error.message);
-      return error;
-    });
-}
+
+
+
+      });
+  }
+
+  //Методи для Завантаження, заміни, видалення картинок з AngularFireStorage 
+  deleteImageInDB(itemForDelete) {
+    console.log(itemForDelete);
+    // this._storage.storage.refFromURL(post.coverPic).delete()
+    return this.firestore.storage.refFromURL(itemForDelete).delete()
+      .then(() => {
+        console.log('Катринка успішно видалена');
+        return itemForDelete;
+      })
+      .catch((error) => {
+        console.log('ПРОБЛЕМА ' + error.code);
+        console.log('ПРОБЛЕМА ' + error.message);
+        return error;
+      });
+  }
 }

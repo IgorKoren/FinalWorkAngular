@@ -309,6 +309,15 @@ export class CategoryListComponent implements OnInit {
     this.router.navigate(['admin-panel/category/editCategory', id]);
   }
 
+  getLengthProductListInCategory(productListInCategory): any {
+    console.log(productListInCategory);
+    // const numbLen = productListInCategory as Array<string>
+    if( !Object.values(productListInCategory) ) {
+      const numbLen: string[] = Object.values(productListInCategory)
+      console.log(numbLen);
+      // return numbLen;
+    }
+  }
 
 
 }

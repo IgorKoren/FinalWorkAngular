@@ -15,7 +15,7 @@ import { ICategory } from 'src/app/shared/interfases/category.interface';
   styleUrls: ['./admin-products-list.component.scss']
 })
 export class AdminProductsListComponent implements OnInit {
-// items: Observable<any[]>;
+  // items: Observable<any[]>;
   // items;
   allProducts: IProduct[];
   allCategoryesList: ICategory[] = [];
@@ -76,18 +76,18 @@ export class AdminProductsListComponent implements OnInit {
     //     }
     //     i++;
     //   });
-    }
-    
-  editProduct(oneProduct: IProduct){
+  }
+
+  editProduct(oneProduct: IProduct) {
     console.log('Редагувати товар');
     console.log(oneProduct);
     this.productService.productForEdit = oneProduct;
     // console.log(this.productService.productForEdit);
-    
+
   }
   trimimageUrlList(oneProduct: IProduct, i: number) {
     const rr = this.allProducts[i].imageUrlList;
-    if( rr ){
+    if (rr) {
       return this.allProducts[i].imageUrlList[0]
     }
   }
@@ -95,22 +95,24 @@ export class AdminProductsListComponent implements OnInit {
   deleteProduct(product) {
     console.log(product);
     // this.сategoryService.deleteProduct(category.id);
-    if (window.confirm(`Видалити цей товар: ${product.title}`)) 
-    { 
-      this.productService.deleteProduct(product); 
+    if (window.confirm(`Видалити цей товар: ${product.title}`)) {
+      this.productService.deleteProduct(product);
+
+
       console.log('Товар видалений');
       // this.toastr.success(student.firstName + ' successfully deleted!');
     }
   }
 
-  cloneProduct(oneProduct: IProduct, clene = true){
+
+  cloneProduct(oneProduct: IProduct, clene = true) {
     console.log('Редагувати товар');
     console.log(oneProduct);
-    
+
     this.productService.productForEditClone = oneProduct;
     this.productService.clone = true;
     // console.log(this.productService.productForEdit);
-    
+
   }
 
 }

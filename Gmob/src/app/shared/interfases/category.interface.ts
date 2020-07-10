@@ -4,7 +4,7 @@ export interface ICategory {
     nameEN: string;
     imageUrl: string;
     description: string;
-    productListInCategory?: string[];
+    productListInCategory: string[];
     // parentCategories?: string[];
     // categoryIDDB?: string;
 

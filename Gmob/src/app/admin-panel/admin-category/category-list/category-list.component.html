@@ -354,8 +354,15 @@
           </span>
 
         </td>
-        <td class="text-center" scope="row">{{oneCatehory?.nameEN}} | {{oneCatehory?.productListInCategory | json }}
-        </td>
+
+        <td class="text-center" scope="row">{{oneCatehory?.nameEN}}
+           {{oneCatehory?.productListInCategory | json }}
+            <!-- {{getLengthProductListInCategory(oneCatehory?.productListInCategory)}}       -->
+                </td>
+
+
+
+                
         <td scope="row">
           <div class="cont-image-in-category-list">
             <a [href]="oneCatehory?.imageUrl" target="_blanck">
