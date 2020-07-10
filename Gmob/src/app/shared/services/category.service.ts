@@ -39,7 +39,9 @@ export class CategoryService {
   }
 
 
-  updateProductListInCategory(idProduct: string, categoryIdlist: string[], deleteProd = false) {
+  updateProductListInCategory(idProduct: string, categoryIdlist: string[], deleteProd = false, update = false) {
+
+
 
     console.log(categoryIdlist);
     const categoryIdlistArray = Object.values(categoryIdlist)
@@ -54,7 +56,7 @@ export class CategoryService {
       // this.getGategory(categoryIdlist[i]).snapshotChanges().subscribe(data => {
       // this.getGategory(categoryIdlist[i]).valueChanges().subscribe(data => {
       let productListInCategory;
-    
+
       console.log(deleteProd);
       ref.once('value')
         .then(snapshot => {
@@ -83,24 +85,37 @@ export class CategoryService {
             productListInCategory = snapshot.child(categoryIdlist[i]).val().productListInCategory as Array<string>
             productListInCategory = Object.values(productListInCategory)
             console.log(productListInCategory);
-            if (!productListInCategory.includes(idProduct)) {
+            if (update) {
+              console.log('ID товару ОБНОВЛЕНО');
+              console.log(typeof productListInCategory);
 
-              console.log('Дана категомія не містить такого товару. Він буде добавлений в список товарів до цієї категорії');
-              productListInCategory.push(idProduct);
+              const ind = productListInCategory.indexOf(idProduct);
+              console.log(ind);
+              productListInCategory.splice(ind, 1, idProduct)
+              console.log(productListInCategory);
+              
+            } 
+            if (!productListInCategory.includes(idProduct)) {
+              
+                console.log('Дана категомія не містить такого товару. Він буде добавлений в список товарів до цієї категорії');
+                productListInCategory.push(idProduct);
+              
+
             }
 
             if (deleteProd) {
               console.log(deleteProd);
-      
+
               console.log('ID товару буде видалено');
               console.log(typeof productListInCategory);
-              
+
               const ind = productListInCategory.indexOf(idProduct);
               console.log(ind);
               productListInCategory.splice(ind, 1)
               // return productListInCategory;
-      
+
             }
+
 
 
             console.log(productListInCategory);

@@ -185,11 +185,13 @@ export class AdminAddProductComponent implements OnInit {
     const categoryIdlist: FormArray = this.addproductForm.get('categoryIdlist') as FormArray;
     if (e.target.checked) {
       categoryIdlist.push(new FormControl(e.target.value));
+
     } else {
       let i = 0;
       categoryIdlist.controls.forEach((item: FormControl) => {
         if (item.value == e.target.value) {
           categoryIdlist.removeAt(i);
+          
           return;
         }
         i++;

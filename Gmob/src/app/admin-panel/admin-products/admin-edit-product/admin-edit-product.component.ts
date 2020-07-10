@@ -43,14 +43,14 @@ export class AdminEditProductComponent implements OnInit {
       console.log('Звичайний режим редагування товару');
 
       this.activeProduct = this.productService.productForEdit;
-      if(this.activeProduct.imageUrlList){
+      if (this.activeProduct.imageUrlList) {
         this.imageUrlListTemp = Object.values(this.activeProduct.imageUrlList);
       } else {
         this.imageUrlListTemp = []
       }
       console.log(this.imageUrlListTemp);
 
-      if(this.activeProduct.categoryIdlist){
+      if (this.activeProduct.categoryIdlist) {
         this.categoryIdlistTemp = Object.values(this.activeProduct.categoryIdlist)
       } else {
         this.categoryIdlistTemp = []
@@ -94,15 +94,15 @@ export class AdminEditProductComponent implements OnInit {
       console.log('Режим редагування склонованого товару');
 
       this.activeProduct = this.productService.productForEditClone;
-      
-      if(this.activeProduct.imageUrlList){
+
+      if (this.activeProduct.imageUrlList) {
         this.imageUrlListTemp = Object.values(this.activeProduct.imageUrlList);
       } else {
         this.imageUrlListTemp = []
       }
       console.log(this.imageUrlListTemp);
 
-      if(this.activeProduct.categoryIdlist){
+      if (this.activeProduct.categoryIdlist) {
         this.categoryIdlistTemp = Object.values(this.activeProduct.categoryIdlist)
       } else {
         this.categoryIdlistTemp = []
@@ -234,7 +234,7 @@ export class AdminEditProductComponent implements OnInit {
       this.productService.addProduct(this.addproductForm.value)
       this.productService.clone = false;
     }
-   
+
 
     // this.productService.addProduct(newProduct).then(() => {
     //   console.log('треба очистити форму');
@@ -245,14 +245,17 @@ export class AdminEditProductComponent implements OnInit {
 
   onCheckCategory(e, categoryId: string, ind: number) {
     const categoryIdlist: FormArray = this.addproductForm.get('categoryIdlist') as FormArray;
+    const catStrArr = Object.values(this.categoryIdlistTemp) ;
     if (e.target.checked) {
       categoryIdlist.push(new FormControl(e.target.value));
+      this.сategoryService.updateProductListInCategory(this.activeProduct.idProduct, [categoryId], false, true)
     } else {
       let i = 0;
       categoryIdlist.controls.forEach((item: FormControl) => {
         if (item.value == e.target.value) {
           categoryIdlist.removeAt(i);
-          return;
+          this.сategoryService.updateProductListInCategory(this.activeProduct.idProduct, [categoryId], true, false);
+        return;
         }
         i++;
       });

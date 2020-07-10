@@ -117,6 +117,8 @@ export class ProductService {
       .then(() => {
         this.productForEdit = null;
         console.log('Обновлення товару виконано успішно');
+        this.categoryService.updateProductListInCategory(newProduct.idProduct, newProduct.categoryIdlist, false, true);
+
 
 
 
@@ -136,7 +138,7 @@ export class ProductService {
   // Delete Product Object
   deleteProduct(delProd: IProduct) {
     this.oneProductRef = this.db.object('products/' + delProd.keyObjectFromDB);
-    
+
     this.categoryService.updateProductListInCategory(delProd.idProduct, delProd.categoryIdlist, true);
 
 
