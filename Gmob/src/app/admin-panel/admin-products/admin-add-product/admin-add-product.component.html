@@ -18,7 +18,7 @@
       </div>
       <div class="col-md-6">
         <div class="form-group text-right">
-          <button type="submit" class="btn btn-success">Додати товар в магазин</button>
+          <button type="submit" [disabled]="addproductForm.get('categoryIdlist')?.length <= 0" class="btn btn-success mr-2">Додати товар в магазин</button>
           <button type="button" class="btn btn-secondary gap-right" (click)="resetForm()">Очистити форму</button>
           <!-- <button *ngIf="isEdit" type="submit" class="btn btn-success" [disabled]="!categoryForm.valid">Зберегти зміни</button> -->
         </div>
@@ -255,11 +255,14 @@
                 <option value="huge"></option>
               </select>
             </span>
-            <span class="ql-formats"><span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0"
+
+            <!-- <span class="ql-formats"><span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0"
                   role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18">
                     <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon>
                     <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon>
-                  </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1"
+                  </svg></span>
+                  
+                  <span class="ql-picker-options" aria-hidden="true" tabindex="-1"
                   id="ql-picker-options-5"><span tabindex="0" role="button" class="ql-picker-item"
                     data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item"
                     data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"
@@ -276,7 +279,8 @@
                 <option value="5"></option>
                 <option value="6"></option>
                 <option selected="selected"></option>
-              </select></span>
+              </select></span> -->
+
             <span class="ql-formats">
               <select class="ql-align" [title]="'Aligment'">
                 <option selected></option>
@@ -428,7 +432,9 @@
   
       <div class="form-group text-right">
   
-        <button type="submit" class="btn btn-success">Додати товар в магазин</button>
+
+
+        <button type="submit" [disabled]="addproductForm.get('categoryIdlist')?.length <= 0"  class="btn btn-success mr-2">Додати товар в магазин</button>
         <button type="button" class="btn btn-secondary gap-right" (click)="resetForm()">Очистити форму</button>
         <!-- <button *ngIf="isEdit" type="submit" class="btn btn-success" [disabled]="!categoryForm.valid">Зберегти зміни</button> -->
       </div>
@@ -452,10 +458,16 @@
         <div>
           <div class="form-group" *ngFor="let oneCategory of allCategoryesList; let i=index">
             <div class="custom-control custom-checkbox hover-ef">
-              <input type="checkbox"  [checked]="(categoryIdlist.value.includes(oneCategory.catecategoryIDDB, 0))" class="custom-control-input cursorPointer" [id]="oneCategory.nameEN"
-                [value]="oneCategory.catecategoryIDDB" (click)="onCheckCategory($event, oneCategory.catecategoryIDDB, i)">
-              <label class="custom-control-label cursorPointer" [for]="oneCategory.nameEN">{{oneCategory.nameUA}} |
-                {{oneCategory.catecategoryIDDB}}</label>
+              <input type="checkbox"  
+              [checked]="(categoryIdlist.value.includes(oneCategory.catecategoryIDDB, 0))"
+              class="custom-control-input cursorPointer" 
+              [id]="oneCategory.nameEN"
+              [value]="oneCategory.catecategoryIDDB" 
+              (click)="onCheckCategory($event, oneCategory.catecategoryIDDB, i)">
+              <!-- [checked]="(categoryIdlist.value.includes(oneCategory.catecategoryIDDB, 0))" -->
+              <label class="custom-control-label cursorPointer" [for]="oneCategory.nameEN">{{oneCategory.nameUA}}
+               <!-- {{oneCategory.catecategoryIDDB}} -->
+              </label>
             </div>
           </div>
         </div>

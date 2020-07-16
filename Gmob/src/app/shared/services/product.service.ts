@@ -52,16 +52,23 @@ export class ProductService {
       dateCreation: newProduct.dateCreation,
       keyObjectFromDB: newProduct.keyObjectFromDB
     })
-      .then(() => {
+      .then((data) => {
+        console.log(data);
+        console.log(data.key);
+
         console.log(newProduct.imageUrlList);
         console.log('Додавання товару виконано');
 
-        this.categoryService.updateProductListInCategory(newProduct.idProduct, newProduct.categoryIdlist, false);
+        console.log(newProduct.keyObjectFromDB);
+
+        this.categoryService.addProductListInCategory(data.key, newProduct.categoryIdlist);
+        this.clone = false;
+        // this.categoryService.updateProductListInCategory(data.key, newProduct.categoryIdlist, false, false);
 
         this.router.navigate(['/admin-panel/products']);
 
 
-        return newProduct;
+        // return newProduct;
 
       })
       .catch((error) => {
@@ -116,12 +123,15 @@ export class ProductService {
     })
       .then(() => {
         this.productForEdit = null;
+        this.clone = false;
         console.log('Обновлення товару виконано успішно');
-        this.categoryService.updateProductListInCategory(newProduct.idProduct, newProduct.categoryIdlist, false, true);
+        console.log(newProduct.keyObjectFromDB);
+
+        this.categoryService.updProductListInCategory(newProduct.keyObjectFromDB, newProduct.categoryIdlist);
 
 
 
-
+        this.clone = false;
         // this.router.navigate(['../products'], { relativeTo: this.route });
         this.router.navigate(['/admin-panel/products']);
 
@@ -136,32 +146,39 @@ export class ProductService {
   }
 
   // Delete Product Object
-  deleteProduct(delProd: IProduct) {
-    this.oneProductRef = this.db.object('products/' + delProd.keyObjectFromDB);
+  deleteProduct(delProd: IProduct, keyProd: string) {
+    console.log('Виконується видалення товару!!!!!!!');
 
-    this.categoryService.updateProductListInCategory(delProd.idProduct, delProd.categoryIdlist, true);
+    this.oneProductRef = this.db.object('products/' + keyProd);
+    const refDelObj = this.db.object('products/' + delProd.keyObjectFromDB);
 
+    console.log(delProd.keyObjectFromDB);
+
+    // this.categoryService.updateProductListInCategory(keyProd, delProd.categoryIdlist, true, false);
 
     console.log(delProd.categoryIdlist);
-
-
     this.oneProductRef.remove()
-      .then(() => {
+      .then((data) => {
+        console.log(refDelObj);
+        
+        refDelObj.remove()
+        .then ( () => {
+          console.log('ЗРОБЛЕНО ДРУГЕ ВИДАЛЕННЯ КЛЮЧА');
+        })
         if (delProd.imageUrlList) {
           const delImUrl = Object.values(delProd.imageUrlList)
           // console.log(delImUrl);
           for (let i = 0; i < delImUrl.length; i++) {
             this.deleteImageInDB(delImUrl[i])
           }
+          this.productForEdit = null;
+          this.productForEditClone = null;
+          this.clone = false;
         }
-
-
-
-
-
-
-
       });
+    this.categoryService.deleteProductListInCategory(keyProd, delProd.categoryIdlist);
+    keyProd = null;
+
   }
 
   //Методи для Завантаження, заміни, видалення картинок з AngularFireStorage 

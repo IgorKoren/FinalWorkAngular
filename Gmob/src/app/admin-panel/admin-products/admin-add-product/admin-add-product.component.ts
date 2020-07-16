@@ -12,6 +12,7 @@ import { ICategory } from 'src/app/shared/interfases/category.interface';
 import { requireCheckboxesToBeCheckedValidator } from 'src/app/shared/validators/my.valigators';
 import { Product } from 'src/app/shared/models/product.model';
 import { IProduct } from 'src/app/shared/interfases/product/product.interface';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 
 @Component({
@@ -56,7 +57,8 @@ export class AdminAddProductComponent implements OnInit {
     private formBuilder: FormBuilder,
     private afStorage: AngularFireStorage,
     public сategoryService: CategoryService,
-    private productService: ProductService
+    private productService: ProductService,
+    private db: AngularFireDatabase
 
     // private router: Router, // Inject student CRUD services in constructor.
     // private location: Location,         // Location service to go back to previous component
@@ -80,26 +82,62 @@ export class AdminAddProductComponent implements OnInit {
       })
     });
 
-    //Взяти список категорій з бази даних
-    // this.dataState();
-    const s = this.сategoryService.getCategoryList();
-    s.snapshotChanges().subscribe(data => { // Using snapshotChanges() method to retrieve list of data along with metadata($key)
-      this.allCategoryesList = [];
-      console.log(data);
-      data.forEach(item => {
-        const a = item.payload.toJSON();
-        console.log(a);
-        // a['categoryId'] = item.key;
-        a['catecategoryIDDB'] = item.key;
-        // console.log(a['Id']);
-        // console.log(a, 'aaaaaaaaaaaaaaaaaaaaaa');
-        this.allCategoryesList.push(a as ICategory);
-        // this.categoryIdlist.push(this.formBuilder.control(a as ICategory));
-      });
-    });
+    // //Взяти список категорій з бази даних
+    // // this.dataState();
+    // const s = this.сategoryService.getCategoryList();
+    // s.snapshotChanges().subscribe(data => { // Using snapshotChanges() method to retrieve list of data along with metadata($key)
+    //   this.allCategoryesList = [];
+    //   console.log(data);
+    //   data.forEach(item => {
+    //     const a = item.payload.toJSON();
+    //     console.log(a);
+    //     // a['categoryId'] = item.key;
+    //     a['catecategoryIDDB'] = item.key;
+    //     // console.log(a['Id']);
+    //     // console.log(a, 'aaaaaaaaaaaaaaaaaaaaaa');
+    //     this.allCategoryesList.push(a as ICategory);
+    //     // this.categoryIdlist.push(this.formBuilder.control(a as ICategory));
+    //   });
+    // });
+
+
+    const ref = this.db.database.ref('category-list');
+    this.allCategoryesList = [];
+
+    ref.once('value')
+      .then(snapshot => {
+        console.log(snapshot);
+        console.log(snapshot.val());
+                
+        console.log(snapshot.val().toJSON);
+        console.log(snapshot.ref);
+        console.log(snapshot.key);
+     
+        const keysCategoriess = Object.keys(snapshot.val())
+        console.log(keysCategoriess);
+        
+        const categor = Object.values(snapshot.val())
+        console.log(categor);
+
+        for (let i = 0; i < categor.length; i++) {
+          console.log('Виконується цикл');
+          console.log(categor[i]);
+          categor[i]['catecategoryIDDB'] = keysCategoriess[i]
+          this.allCategoryesList.push(categor[i] as ICategory);
+
+        }
+
+       
+      })
+
+
+
+
+
+
   }
 
-
+  
 
   get title() {
     return this.addproductForm.get('title');
@@ -182,6 +220,7 @@ export class AdminAddProductComponent implements OnInit {
 
 
   onCheckCategory(e, categoryId: string, ind: number) {
+    // this.getSelectedCategory()
     const categoryIdlist: FormArray = this.addproductForm.get('categoryIdlist') as FormArray;
     if (e.target.checked) {
       categoryIdlist.push(new FormControl(e.target.value));

@@ -9,6 +9,8 @@ import { ProductService } from 'src/app/shared/services/product.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Location } from '@angular/common';
 import { Product } from 'src/app/shared/models/product.model';
+import { Router } from '@angular/router';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 
 @Component({
@@ -30,12 +32,16 @@ export class AdminEditProductComponent implements OnInit {
   allCategoryesList: ICategory[] = [];
   activeProduct: IProduct;
   populations = []
+  isCloneorEdit: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private afStorage: AngularFireStorage,
     public сategoryService: CategoryService,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router,
+    private location: Location,
+    private db: AngularFireDatabase
   ) { }
 
   ngOnInit(): void {
@@ -88,7 +94,13 @@ export class AdminEditProductComponent implements OnInit {
         keyObjectFromDB: [this.activeProduct.keyObjectFromDB]
       });
 
-      this.productService.productForEdit = null;
+
+
+
+
+      // this.productService.productForEdit = null;
+
+
 
     } else {
       console.log('Режим редагування склонованого товару');
@@ -139,28 +151,94 @@ export class AdminEditProductComponent implements OnInit {
         keyObjectFromDB: ['1']
       });
       this.productService.productForEditClone = null;
+      this.productService.productForEdit = null;
+
+
 
     }
 
     //Взяти список категорій з бази даних
     // this.dataState();
-    const s = this.сategoryService.getCategoryList();
-    s.snapshotChanges().subscribe(data => { // Using snapshotChanges() method to retrieve list of data along with metadata($key)
-      this.allCategoryesList = [];
-      console.log(data);
-      data.forEach(item => {
-        const a = item.payload.toJSON();
-        console.log(a);
-        // a['categoryId'] = item.key;
-        a['catecategoryIDDB'] = item.key;
-        // console.log(a['Id']);
-        // console.log(a, 'aaaaaaaaaaaaaaaaaaaaaa');
-        this.allCategoryesList.push(a as ICategory);
-        // this.categoryIdlist.push(this.formBuilder.control(a as ICategory));
-      });
-    });
+    // const s = this.сategoryService.getCategoryList();
+    // s.snapshotChanges().subscribe(data => { // Using snapshotChanges() method to retrieve list of data along with metadata($key)
+    //   this.allCategoryesList = [];
+    //   console.log(data);
+    //   data.forEach(item => {
+    //     const a = item.payload.toJSON();
+    //     console.log(a);
+    //     // a['categoryId'] = item.key;
+    //     a['catecategoryIDDB'] = item.key;
+    //     // console.log(a['Id']);
+    //     // console.log(a, 'aaaaaaaaaaaaaaaaaaaaaa');
+    //     this.allCategoryesList.push(a as ICategory);
+    //     // this.categoryIdlist.push(this.formBuilder.control(a as ICategory));
+    //     return true;
+    //   });
+    // });
+
+
+    const ref = this.db.database.ref('category-list');
+    this.allCategoryesList = [];
+
+    ref.once('value')
+      .then(snapshot => {
+        console.log(snapshot);
+        console.log(snapshot.val());
+
+        console.log(snapshot.val().toJSON);
+        console.log(snapshot.ref);
+        console.log(snapshot.key);
+
+        const keysCategoriess = Object.keys(snapshot.val())
+        console.log(keysCategoriess);
+
+        const categor = Object.values(snapshot.val())
+        console.log(categor);
+
+        for (let i = 0; i < categor.length; i++) {
+          console.log('Виконується цикл');
+          console.log(categor[i]);
+          categor[i]['catecategoryIDDB'] = keysCategoriess[i]
+          this.allCategoryesList.push(categor[i] as ICategory);
+
+        }
+      })
+
+    // console.log(this.addproductForm.get('seo').get('titleSeo').value);
+    // this.addproductForm.get('seo').get('titleSeo').patchValue(this.addproductForm.get('title').value)
+    // this.addproductForm.get('seo').get('metaDescription').patchValue(this.addproductForm.get('title').value)
+    // console.log(this.addproductForm.get('seo').get('titleSeo').value);
+
+  }
+  isClone(){
+    if ( this.productService.clone){
+      this.isCloneorEdit = true;
+      return 'none'
+    } else {
+      this.isCloneorEdit = false;
+      return 'inlene-block'
+    }
+  }
+  setSeo(): void {
+    // console.log(this.addproductForm.get('seo').get('titleSeo').value);
+    // this.addproductForm.get('seo').get('titleSeo').patchValue(this.addproductForm.get('title').value)
+    // this.addproductForm.get('seo').get('metaDescription').patchValue(this.addproductForm.get('title').value)
+    // console.log(this.addproductForm.get('seo').get('titleSeo').value);
   }
 
+  deleteProduct() {
+    const product = this.productService.productForEdit;
+    console.log(this.productService.productForEdit);
+    // this.сategoryService.deleteProduct(category.id);
+    if (window.confirm(`Видалити цей товар: ${product.title}`)) {
+      console.log(product.keyObjectFromDB);
+      this.productService.deleteProduct(product, product.keyObjectFromDB);
+      console.log('Товар видалений');
+      // this.productService.productForEdit = null;
+      // this.productService.productForEditClone = null;
+      this.router.navigate(['admin-panel/products/products-list']);
+    }
+  }
   get title() {
     return this.addproductForm.get('title');
   }
@@ -230,6 +308,8 @@ export class AdminEditProductComponent implements OnInit {
 
     if (!this.productService.clone) {
       this.productService.updateProduct(this.addproductForm.value);
+      this.productService.clone = false;
+
     } else {
       this.productService.addProduct(this.addproductForm.value)
       this.productService.clone = false;
@@ -245,17 +325,30 @@ export class AdminEditProductComponent implements OnInit {
 
   onCheckCategory(e, categoryId: string, ind: number) {
     const categoryIdlist: FormArray = this.addproductForm.get('categoryIdlist') as FormArray;
-    const catStrArr = Object.values(this.categoryIdlistTemp) ;
+    const catStrArr = Object.values(this.categoryIdlistTemp);
     if (e.target.checked) {
       categoryIdlist.push(new FormControl(e.target.value));
-      this.сategoryService.updateProductListInCategory(this.activeProduct.idProduct, [categoryId], false, true)
+
+      this.сategoryService.updProductListInCategory(this.activeProduct.keyObjectFromDB, [categoryId])
+
+      if (!this.productService.clone) {
+        this.сategoryService.addProductListInCategory(this.activeProduct.keyObjectFromDB, [categoryId])
+      }
+
     } else {
       let i = 0;
       categoryIdlist.controls.forEach((item: FormControl) => {
-        if (item.value == e.target.value) {
+        if (item.value === e.target.value) {
           categoryIdlist.removeAt(i);
-          this.сategoryService.updateProductListInCategory(this.activeProduct.idProduct, [categoryId], true, false);
-        return;
+
+
+          this.сategoryService.updProductListInCategory(this.activeProduct.keyObjectFromDB, [categoryId]);
+
+          if (!this.productService.clone) {
+            this.сategoryService.deleteProductListInCategory(this.activeProduct.keyObjectFromDB, [categoryId]);
+          }
+
+          return;
         }
         i++;
       });

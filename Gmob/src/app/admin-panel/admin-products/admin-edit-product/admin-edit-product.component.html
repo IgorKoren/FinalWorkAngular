@@ -15,10 +15,12 @@
       <div class="col-md-6">
         <h2>Додати товар:</h2>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div class="form-group text-right">
-          <button type="submit" class="btn btn-success">Зберегти зміни</button>
-          <button type="button" class="btn btn-secondary gap-right" (click)="resetForm()">Очистити форму</button>
+          <button type="submit" [disabled]="addproductForm.get('categoryIdlist')?.length <= 0" class="btn btn-success mr-2">Зберегти зміни</button>
+          <button type="button" class="btn btn-secondary gap-right mr-2" (click)="resetForm()">Очистити форму</button>
+          <button type="button" [ngStyle]="{'display': isClone()}" class="btn btn-secondary gap-right" (click)="deleteProduct()">Видалити товар</button>
+
           <!-- <button *ngIf="isEdit" type="submit" class="btn btn-success" [disabled]="!categoryForm.valid">Зберегти зміни</button> -->
         </div>
       </div>
@@ -235,7 +237,8 @@
                     <option value="huge"></option>
                   </select>
                 </span>
-                <span class="ql-formats"><span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0"
+
+                <!-- <span class="ql-formats"><span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0"
                       role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18">
                         <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon>
                         <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon>
@@ -256,7 +259,8 @@
                     <option value="5"></option>
                     <option value="6"></option>
                     <option selected="selected"></option>
-                  </select></span>
+                  </select></span> -->
+
                 <span class="ql-formats">
                   <select class="ql-align" [title]="'Aligment'">
                     <option selected></option>
@@ -341,8 +345,9 @@
 
 
           <div class="form-group text-right">
-            <button type="submit" class="btn btn-success">Зберегти зміни</button>
-            <button type="button" class="btn btn-secondary gap-right" (click)="resetForm()">Очистити форму</button>
+            <button type="submit"  [disabled]="addproductForm.get('categoryIdlist')?.length <= 0" class="btn btn-success mr-2">Зберегти зміни</button>
+            <button type="button" class="btn btn-secondary gap-right mr-2" (click)="resetForm()">Очистити форму</button>
+            <button type="button" [ngStyle]="{'display': isClone()}"  class="btn btn-secondary gap-right" (click)="deleteProduct()">Видалити товар</button>
             <!-- <button *ngIf="isEdit" type="submit" class="btn btn-success" [disabled]="!categoryForm.valid">Зберегти зміни</button> -->
           </div>
         </ng-template>
@@ -389,7 +394,7 @@
       </ng-container>
 
       <ng-container ngbNavItem>
-        <a ngbNavLink>SEO</a>
+        <a ngbNavLink (click)="setSeo()">SEO</a>
         <ng-template ngbNavContent>
           <div formGroupName="seo">
             <div class="bor">

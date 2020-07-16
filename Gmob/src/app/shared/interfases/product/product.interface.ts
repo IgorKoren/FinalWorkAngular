@@ -27,6 +27,7 @@ export interface IProduct {
         dateMinutes?: number;
     };
     keyObjectFromDB?: string;
+    
 
   
 
